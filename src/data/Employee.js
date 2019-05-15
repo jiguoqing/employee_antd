@@ -46,13 +46,12 @@ export function save(Employee, options) {
 export function findByPage(pageSize, currentPage, formData, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/findByCondition.json",
-    method: "POST",
+    url: "/oa/employee/findByCondition",
+    method: "GET",
     data: {
-      page_size: pageSize,                            // 每页大小
+      pageSize: pageSize,                            // 每页大小
       page: currentPage,                        	 // 当前页
       name: formData.name,
-
     },
     success: function (resp) {
       if (ResponseHelper.isSuccess(resp)) {           // 成功
