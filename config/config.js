@@ -10,11 +10,7 @@ export default {
     routes: [
       {
         path: '/',
-        component: 'Helloworld',
-      },
-      {
-        path: '/helloworld',
-        component: 'Helloworld'
+        component: 'employee/List',
       },
       {
         path: '/employee',
@@ -30,6 +26,12 @@ export default {
       },
     ]
   }],
+  proxy: {
+    '/oa': {
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    },
+  },
   singular: true,
 };
 

@@ -28,7 +28,7 @@ export function isNotException(resp) {
  * @returns {boolean}
  */
 export function isSuccess(resp) {
-  if (resp && resp.success == true) {
+  if (resp && resp.code == '200') {
     return true;
   }
   return false;

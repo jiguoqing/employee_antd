@@ -54,11 +54,11 @@ export function findByPage(pageSize, currentPage, formData, options) {
       name: formData.name,
     },
     success: function (resp) {
-      if (ResponseHelper.isSuccess(resp)) {           // 成功
-        options.success(resp);
-      } else {
-        options.error(resp);           // 失败
-      }
+      // if (ResponseHelper.isSuccess(resp)) {           // 成功
+      options.success(resp);
+      // } else {
+      //   options.error(resp);           // 失败
+      // }
     },
     error: options.error,
     complete: options.complete

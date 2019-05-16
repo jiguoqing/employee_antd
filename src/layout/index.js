@@ -14,12 +14,6 @@ export default class BasicLayout extends Component {
           <div style={{ height: '32px', background: 'rgba(255,255,255,.2)', margin: '16px' }} />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
-              <Link to="/helloworld">
-                <Icon type="pie-chart" />
-                <span>Helloworld</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
               <Link to="/employee">
                 <Icon type="pie-chart" />
                 <span>employee</span>
@@ -36,7 +30,7 @@ export default class BasicLayout extends Component {
           </Menu>
         </Sider>
         <Layout >
-          <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>Header</Header>
+          <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>石基信息</Header>
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               {this.props.children}
