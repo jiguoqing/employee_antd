@@ -1,7 +1,9 @@
 
-import { Table, message } from 'antd';
+import { Table, message, Tooltip, Icon } from 'antd';
 import React, { Component } from 'react';
 import * as  EmployeeService from '../../services/EmployeeService.js';
+import * as DateUtil from '../../utils/DateUtil';
+import * as StringUtil from '../../utils/StringUtil';
 
 const columns = [
   {
@@ -28,12 +30,30 @@ const columns = [
     title: '入职日期',
     dataIndex: 'onboardAt',
     key: 'onboardAt',
+    render: (value) => {
+      if (StringUtil.isBlank(value)) {
+        return "--";
+      }
+      return DateUtil.formatDate(value);
+    }
   },
   {
     title: '地址',
     dataIndex: 'location',
     key: 'location',
   },
+  {
+    title: "操作",
+    width: 10,
+    render(value, data) {
+      return <span>
+        <Tooltip title="删除">
+          <Icon type="delete" className={`ft-danger fn-cursor`} />
+        </Tooltip>
+      </span>;
+    }
+  }
+
 ];
 class EmployeeList extends Component {
 
