@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { message, Form, Input, Button } from 'antd';
+import React, { Component } from 'react';
+import { message, Form, Input, Button, DatePicker } from 'antd';
 const FormItem = Form.Item;
 import * as StringUtil from '../../utils/StringUtil';
 import * as DataUtil from '../../utils/DataUtil';
@@ -91,7 +91,7 @@ class RiskDefinitionEditor extends Component {
           </FormItem>
           <FormItem label="英文名：" {...formItemLayout}>
             {getFieldDecorator("englishName", { initialValue: DataUtil.fill(data, "englishName") })(
-              <Input placeholder="姓名" />
+              <Input placeholder="英文名" />
             )}
           </FormItem>
           <FormItem label="性别：" {...formItemLayout}>
@@ -108,6 +108,11 @@ class RiskDefinitionEditor extends Component {
           <FormItem label="职位：" {...formItemLayout}>
             {getFieldDecorator("jobTitle", { initialValue: DataUtil.fill(data, "jobTitle") })(
               <Input placeholder="职位" />
+            )}
+          </FormItem>
+          <FormItem label="入职日期：" {...formItemLayout}>
+            {getFieldDecorator("onboardAt", { initialValue: null })(
+              <DatePicker placeholder="入职日期" format={"YYYY-MM-DD HH:mm"} />
             )}
           </FormItem>
           <FormItem label="Email：" {...formItemLayout}>

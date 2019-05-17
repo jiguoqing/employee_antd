@@ -95,7 +95,6 @@ class EmployeeList extends Component {
         message.error("保存失败");
       },
       complete() {
-        self.conn = null;
       }
     });
   }

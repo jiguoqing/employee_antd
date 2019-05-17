@@ -12,7 +12,8 @@ import JSON from 'JSON';
 export function save(employee, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
-    url: "/employee/save.json",
+    url: "/oa/employee/save.json",
+    contentType: "application/json",
     method: "POST",
     data: JSON.stringify(employee),
     success: function (resp) {
