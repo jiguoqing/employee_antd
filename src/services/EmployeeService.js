@@ -23,14 +23,14 @@ export function findByConditions(conditions, options) {
 /**
  * 保存
  *
- * @param riskScene    
+ * @param employee    
  * @param options 请求配置
  */
-export function save(riskScene, options) {
-  if (CollectionUtil.isEmpty(riskScene)) {
+export function save(employee, options) {
+  if (CollectionUtil.isEmpty(employee)) {
     return;
   }
-  return Employee.save(riskScene, options);
+  return Employee.save(employee, options);
 }
 
 /**
@@ -109,10 +109,10 @@ export function addEmployees(appId, EmployeeIds, targetType, options) {
  * 删除应用关联的
  *
  * @param appId  应用Id
- * @param riskSceneId  ID
+ * @param employeeId  ID
  * @param options 请求配置
  * @returns {*}
  */
-export function deleteEmployee(appId, riskSceneId, options) {
-  return Employee.deleteEmployee(appId, riskSceneId, options);
+export function deleteEmployee(appId, employeeId, options) {
+  return Employee.deleteEmployee(appId, employeeId, options);
 }

@@ -1,4 +1,3 @@
-
 import { Table, message, Button, Modal, Alert } from 'antd';
 import React, { Component } from 'react';
 import * as  EmployeeService from '../../services/EmployeeService.js';
@@ -81,7 +80,25 @@ class EmployeeList extends Component {
     e.preventDefault();
     this.props.form.resetFields();
   }
+  handleEditorSubmit(formData) {
+    const self = this;
 
+    StringUtil.trimObject(formData);    // 去除所有空格
+
+    EmployeeService.save(formData, {
+      success() {
+        message.success("保存成功");
+        self.hideModal();
+        self.loadSolution();
+      },
+      error() {
+        message.error("保存失败");
+      },
+      complete() {
+        self.conn = null;
+      }
+    });
+  }
   /**
    * 显示对话框
    */
@@ -153,9 +170,9 @@ class EmployeeList extends Component {
   getContentByAction() {
     switch (this.action) {
       case Actions.ADD:
-        return this.state.visible ? <EmployeeEditor data={null} onSubmit={this.clickEditEmployeeButton} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <EmployeeEditor data={null} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.EDIT:
-        return this.state.visible ? <EmployeeEditor data={this.state.solution} onSubmit={this.clickDeleteEmployeeButton} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <EmployeeEditor data={this.state.solution} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.DELETE:
         return <Alert
           message="确定要删除当前员工吗？"
@@ -206,7 +223,7 @@ class EmployeeList extends Component {
         }
       },
       {
-        title: '地址',
+        title: '办公地',
         dataIndex: 'location',
         key: 'location',
       },

@@ -25,15 +25,7 @@ class RiskDefinitionEditor extends Component {
     */
   validate(data) {
     if (StringUtil.isBlank(data.name)) {
-      message.warning("请填写风险场景名称");
-      return false;
-    }
-    if (StringUtil.isBlank(data.description)) {
-      message.warning("请填写风险场景描述");
-      return false;
-    }
-    if (StringUtil.isBlank(data.triggerPoint)) {
-      message.warning("请填写风险场景表达式");
+      message.warning("请填写姓名");
       return false;
     }
     return true;
@@ -92,20 +84,52 @@ class RiskDefinitionEditor extends Component {
           {getFieldDecorator("id", { initialValue: DataUtil.fill(data, "id") })(
             <Input type="hidden" />
           )}
-          <FormItem label="名称：" {...formItemLayout}>
+          <FormItem label="姓名：" {...formItemLayout}>
             {getFieldDecorator("name", { initialValue: DataUtil.fill(data, "name") })(
-              <Input placeholder="名称" />
+              <Input placeholder="姓名" />
             )}
           </FormItem>
-          <FormItem label="表达式：" {...formItemLayout}>
-            {getFieldDecorator("triggerPoint", { initialValue: DataUtil.fill(data, "triggerPoint") })(
-              <Input placeholder="表达式" />
+          <FormItem label="英文名：" {...formItemLayout}>
+            {getFieldDecorator("englishName", { initialValue: DataUtil.fill(data, "englishName") })(
+              <Input placeholder="姓名" />
+            )}
+          </FormItem>
+          <FormItem label="性别：" {...formItemLayout}>
+            {getFieldDecorator("gender", { initialValue: DataUtil.fill(data, "gender") })(
+              <Input placeholder="性别" />
+            )}
+          </FormItem>
+          <FormItem label="员工号：" {...formItemLayout}>
+            {getFieldDecorator("code", { initialValue: DataUtil.fill(data, "code") })(
+              <Input placeholder="员工号" />
             )}
           </FormItem>
 
-          <FormItem label="描述：" {...formItemLayout}>
+          <FormItem label="职位：" {...formItemLayout}>
+            {getFieldDecorator("jobTitle", { initialValue: DataUtil.fill(data, "jobTitle") })(
+              <Input placeholder="职位" />
+            )}
+          </FormItem>
+          <FormItem label="Email：" {...formItemLayout}>
+            {getFieldDecorator("email", { initialValue: DataUtil.fill(data, "email") })(
+              <Input placeholder="Email" />
+            )}
+          </FormItem>
+
+          <FormItem label="手机：" {...formItemLayout}>
+            {getFieldDecorator("phone", { initialValue: DataUtil.fill(data, "phone") })(
+              <Input placeholder="手机" />
+            )}
+          </FormItem>
+          <FormItem label="办公地：" {...formItemLayout}>
+            {getFieldDecorator("location", { initialValue: DataUtil.fill(data, "location") })(
+              <Input placeholder="办公地" />
+            )}
+          </FormItem>
+
+          <FormItem label="备注：" {...formItemLayout}>
             {getFieldDecorator("description", { initialValue: DataUtil.fill(data, "description") })(
-              <Input type='textarea' placeholder="描述" />
+              <Input type='textarea' placeholder="备注" />
             )}
           </FormItem>
 

@@ -1,27 +1,20 @@
 import * as OptionsHelper from './helpers/OptionsHelper.js';
 import * as ResponseHelper from './helpers/ResponseHelper.js';
-
 import $ from 'jquery';
+import JSON from 'JSON';
 
 /**
  * 保存
  *
- * @param Employee    
+ * @param employee    
  * @param options 请求配置
  */
-export function save(Employee, options) {
+export function save(employee, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
     url: "/employee/save.json",
     method: "POST",
-    data: {
-      id: Employee.id,                            // 编号(编辑状态有值)
-      triggerPoint: Employee.triggerPoint,                        // 表达式
-      description: Employee.description,          // 措施描述
-
-      name: Employee.name,                        // 名称
-
-    },
+    data: JSON.stringify(employee),
     success: function (resp) {
       if (ResponseHelper.isSuccess(resp)) {           // 成功
         options.success(resp);
