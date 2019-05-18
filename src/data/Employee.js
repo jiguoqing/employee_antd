@@ -12,7 +12,7 @@ import JSON from 'JSON';
 export function save(employee, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
-    url: "/oa/employee/save.json",
+    url: "/oa/employee/save",
     contentType: "application/json",
     method: "POST",
     data: JSON.stringify(employee),
@@ -39,7 +39,6 @@ export function findByPage(pageSize, currentPage, formData, options) {
     url: "/oa/employee/findByCondition",
     method: "GET",
     data: {
-      pageSize: pageSize,                            // 每页大小
       page: currentPage,                        	 // 当前页
       name: formData.name,
     },
@@ -63,7 +62,7 @@ export function findByPage(pageSize, currentPage, formData, options) {
 export function findById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/findById.json",
+    url: "/employee/findById",
     method: "POST",
     data: {
       id: id
@@ -89,17 +88,13 @@ export function findById(id, options) {
 export function deleteById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/deleteById.json",
+    url: "/oa/employee/deleteById",
     method: "POST",
     data: {
       id: id
     },
     success: function (resp) {
-      if (ResponseHelper.isSuccess(resp)) {           // 处理成功
-        options.success(resp);
-      } else {
-        options.error(resp);           // 处理失败
-      }
+      options.success(resp);
     },
     error: options.error,
     complete: options.complete

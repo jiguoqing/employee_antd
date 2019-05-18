@@ -104,6 +104,22 @@ class EmployeeList extends Component {
       }
     });
   }
+  handleDelete = () => {
+
+    const self = this;
+    EmployeeService.deleteById(this.state.employee.id, {
+      success() {
+        message.success("删除成功");
+        self.hideModal();
+        self.getEmployees(self.state.currentPage);
+      },
+      error() {
+        message.error("删除失败");
+      },
+      complete() {
+      }
+    });
+  }
   /**
    * 显示对话框
    */
@@ -146,7 +162,7 @@ class EmployeeList extends Component {
         return false;
       case Actions.DELETE:
         this.action = Actions.DELETE;
-        return <span><Button onClick={this.clickCancelButton} type="ghost">取消</Button>&nbsp;&nbsp;<Button onClick={this.handleOK} type="primary">确定</Button></span>;
+        return <span><Button onClick={this.clickCancelButton} type="ghost">取消</Button>&nbsp;&nbsp;<Button onClick={this.handleDelete} type="primary">确定</Button></span>;
 
     }
   }
