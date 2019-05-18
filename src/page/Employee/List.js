@@ -5,6 +5,7 @@ import * as DateUtil from '../../utils/DateUtil';
 import * as StringUtil from '../../utils/StringUtil';
 import Actions from '../actions/Actions'
 import EmployeeEditor from './EmployeeEditor';
+import AssessEditor from '../assess/AssessEditor';
 
 class EmployeeList extends Component {
   constructor(props) {
@@ -46,15 +47,16 @@ class EmployeeList extends Component {
   }
   clickEditEmployeeButton = () => {
     this.setAction(Actions.EDIT);
-    // this.setState({
-    //   employee: employee
-    // });
     this.showModal();
   };
   clickDeleteEmployeeButton = () => {
     this.setAction(Actions.DELETE);
     this.showModal();
   };
+  clickAssessEmployeeButton = () => {
+    this.setAction(Actions.ASSESS);
+    this.showModal();
+  }
   clickCancelButton = () => {
     this.hideModal();
   };
@@ -146,6 +148,8 @@ class EmployeeList extends Component {
         return 600;
       case Actions.DELETE:
         return 400;
+      case Actions.ASSESS:
+        return 800;
     }
   }
   /**
@@ -163,7 +167,9 @@ class EmployeeList extends Component {
       case Actions.DELETE:
         this.action = Actions.DELETE;
         return <span><Button onClick={this.clickCancelButton} type="ghost">取消</Button>&nbsp;&nbsp;<Button onClick={this.handleDelete} type="primary">确定</Button></span>;
-
+      case Actions.ASSESS:
+        this.action = Actions.ASSESS;
+        return false;
     }
   }
 
@@ -180,6 +186,8 @@ class EmployeeList extends Component {
         return "编辑员工";
       case Actions.DELETE:
         return "删除员工";
+      case Actions.DELETE:
+        return "考核员工";
     }
   }
 
@@ -200,6 +208,8 @@ class EmployeeList extends Component {
           type="warning"
           showIcon
         />;
+      case Actions.ASSESS:
+        return this.state.visible ? <AssessEditor data={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
     }
   }
   //生命周期
@@ -275,6 +285,7 @@ class EmployeeList extends Component {
           return <span>
             <Button type="primary" size="small" onClick={self.clickEditEmployeeButton}> 编辑</Button> &nbsp;&nbsp;
             <Button type="primary" size="small" onClick={self.clickDeleteEmployeeButton}>删除</Button>
+            <Button type="primary" size="small" onClick={self.clickAssessEmployeeButton}>考核</Button>
           </span>;
         }
       }
