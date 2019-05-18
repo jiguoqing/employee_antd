@@ -17,11 +17,7 @@ export function save(employee, options) {
     method: "POST",
     data: JSON.stringify(employee),
     success: function (resp) {
-      if (ResponseHelper.isSuccess(resp)) {           // 成功
-        options.success(resp);
-      } else {
-        options.error(resp);           // 失败
-      }
+      options.success(resp);// 成功
     },
     error: options.error,
     complete: options.complete

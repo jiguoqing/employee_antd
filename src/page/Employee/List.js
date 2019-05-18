@@ -17,7 +17,7 @@ class EmployeeList extends Component {
     };
   }
 
-  getEmployees(page) {
+  getEmployees = (page) => {
     var currentPage = null;
     if (page == null) {
       currentPage = this.state.currentPage;
@@ -67,7 +67,7 @@ class EmployeeList extends Component {
     });
     this.showModal();
   }
-  setAction(action) {
+  setAction = (action) => {
     this.action = action;
   }
 
@@ -82,11 +82,11 @@ class EmployeeList extends Component {
   * 表单元素重置
   * @param e
   */
-  handleReset(e) {
+  handleReset = (e) => {
     e.preventDefault();
     this.props.form.resetFields();
   }
-  handleEditorSubmit(formData) {
+  handleEditorSubmit = (formData) => {
     const self = this;
 
     StringUtil.trimObject(formData);    // 去除所有空格
@@ -95,7 +95,7 @@ class EmployeeList extends Component {
       success() {
         message.success("保存成功");
         self.hideModal();
-        self.getEmployees(this.state.currentPage);
+        self.getEmployees(self.state.currentPage);
       },
       error() {
         message.error("保存失败");
@@ -107,7 +107,7 @@ class EmployeeList extends Component {
   /**
    * 显示对话框
    */
-  showModal() {
+  showModal = () => {
     this.setState({
       visible: true
     });
@@ -116,13 +116,13 @@ class EmployeeList extends Component {
   /**
    * 隐藏对话框
    */
-  hideModal() {
+  hideModal = () => {
     this.setState({
       visible: false
     });
   }
 
-  getWidthByAction() {
+  getWidthByAction = () => {
     switch (this.action) {
       case Actions.ADD:
         return 600;
@@ -136,7 +136,7 @@ class EmployeeList extends Component {
    * 根据具体的操作是否显示内容
    * @returns {boolean}
    */
-  getFooterByAction() {
+  getFooterByAction = () => {
     switch (this.action) {
       case Actions.ADD:
         this.action = Actions.ADD;
@@ -156,7 +156,7 @@ class EmployeeList extends Component {
    *
    * @returns {*}
    */
-  getTitleByAction() {
+  getTitleByAction = () => {
     switch (this.action) {
       case Actions.ADD:
         return "添加员工";
@@ -172,7 +172,7 @@ class EmployeeList extends Component {
    *
    * @returns {*}
    */
-  getContentByAction() {
+  getContentByAction = () => {
     switch (this.action) {
       case Actions.ADD:
         return this.state.visible ? <EmployeeEditor data={null} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
