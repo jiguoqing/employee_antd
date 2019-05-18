@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { message, Form, Input, Button, DatePicker } from 'antd';
-const FormItem = Form.Item;
+import { message, Form, Input, Button, DatePicker, Radio } from 'antd';
+import moment from 'moment';
 import * as StringUtil from '../../utils/StringUtil';
 import * as DataUtil from '../../utils/DataUtil';
+import * as DateUtil from '../../utils/DateUtil';
 
+const FormItem = Form.Item;
+const RadioGroup = Radio.Group;
 /**
- * 风险场景编辑器
+ * 员工编辑器
  */
-class RiskDefinitionEditor extends Component {
+class EmployeeEditor extends Component {
 
   constructor(props) {
     super(props);
@@ -74,6 +77,11 @@ class RiskDefinitionEditor extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const data = this.props.data;
+
+    let onboardAt = data == null ? null : moment(DateUtil.formatDate(data.onboardAt), 'YYYY-MM-DD');
+    // let onboardAt = moment(DateUtil.formatDate(data.onboardAt), 'YYYY-MM-DD');
+
+    // let time = moment();
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 17 }
@@ -96,23 +104,32 @@ class RiskDefinitionEditor extends Component {
           </FormItem>
           <FormItem label="性别：" {...formItemLayout}>
             {getFieldDecorator("gender", { initialValue: DataUtil.fill(data, "gender") })(
-              <Input placeholder="性别" />
+              <RadioGroup >
+                <Radio value="男">男</Radio>
+                <Radio value={"女"}>女</Radio>
+              </RadioGroup>
             )}
           </FormItem>
+
           <FormItem label="员工号：" {...formItemLayout}>
             {getFieldDecorator("code", { initialValue: DataUtil.fill(data, "code") })(
               <Input placeholder="员工号" />
             )}
           </FormItem>
 
+          <FormItem label="入职日期：" {...formItemLayout}>
+            {getFieldDecorator("onboardAt", { initialValue: onboardAt })(
+              <DatePicker placeholder="入职日期" format={"YYYY-MM-DD"} />
+            )}
+          </FormItem>
           <FormItem label="职位：" {...formItemLayout}>
             {getFieldDecorator("jobTitle", { initialValue: DataUtil.fill(data, "jobTitle") })(
               <Input placeholder="职位" />
             )}
           </FormItem>
-          <FormItem label="入职日期：" {...formItemLayout}>
-            {getFieldDecorator("onboardAt", { initialValue: null })(
-              <DatePicker placeholder="入职日期" format={"YYYY-MM-DD HH:mm"} />
+          <FormItem label="部门：" {...formItemLayout}>
+            {getFieldDecorator("department", { initialValue: DataUtil.fill(data, "department") })(
+              <Input placeholder="部门" />
             )}
           </FormItem>
           <FormItem label="Email：" {...formItemLayout}>
@@ -148,8 +165,8 @@ class RiskDefinitionEditor extends Component {
   }
 }
 
-RiskDefinitionEditor.propTypes = {};
+EmployeeEditor.propTypes = {};
 
-RiskDefinitionEditor = Form.create()(RiskDefinitionEditor);
+EmployeeEditor = Form.create()(EmployeeEditor);
 
-export default RiskDefinitionEditor;
+export default EmployeeEditor;

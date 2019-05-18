@@ -11,17 +11,13 @@ class EmployeeList extends Component {
     super(props);
     this.state = {
       visible: false,   // 对话框显示状态
-      loadTemplate: true,
       employees: null,
-      currentTypeKey: "REALTIME",
-      currentSubTypeKey: "DATA",
       currentPage: 1,
       pageSize: 10,
-      status: null,
     };
   }
 
-  getEmployee(currentTypeKey, currentSubTypeKey, page, status) {
+  getEmployees(page) {
     var currentPage = null;
     if (page == null) {
       currentPage = this.state.currentPage;
@@ -30,7 +26,7 @@ class EmployeeList extends Component {
     }
     const self = this;
 
-    const formData = { "type": currentTypeKey, "subType": currentSubTypeKey };
+    const formData = {};
     EmployeeService.findByPageModel(this.state.pageSize, this.state.currentPage, formData, {
 
       success: function (resp) {
@@ -40,7 +36,7 @@ class EmployeeList extends Component {
         });
       },
       error: function () {
-        message.error("加载指标列表失败！");
+        message.error("加载员工列表失败！");
       },
       complete: function () {
 
@@ -50,6 +46,9 @@ class EmployeeList extends Component {
   }
   clickEditEmployeeButton = () => {
     this.setAction(Actions.EDIT);
+    // this.setState({
+    //   employee: employee
+    // });
     this.showModal();
   };
   clickDeleteEmployeeButton = () => {
@@ -72,6 +71,13 @@ class EmployeeList extends Component {
     this.action = action;
   }
 
+  handleRowClick = (data, index, evt) => {
+
+    this.setState({
+      employee: data
+    });
+  }
+
   /**
   * 表单元素重置
   * @param e
@@ -89,7 +95,7 @@ class EmployeeList extends Component {
       success() {
         message.success("保存成功");
         self.hideModal();
-        self.loadSolution();
+        self.getEmployees(this.state.currentPage);
       },
       error() {
         message.error("保存失败");
@@ -171,7 +177,7 @@ class EmployeeList extends Component {
       case Actions.ADD:
         return this.state.visible ? <EmployeeEditor data={null} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.EDIT:
-        return this.state.visible ? <EmployeeEditor data={this.state.solution} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <EmployeeEditor data={this.state.employee} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.DELETE:
         return <Alert
           message="确定要删除当前员工吗？"
@@ -183,7 +189,7 @@ class EmployeeList extends Component {
   //生命周期
   componentDidMount() {
 
-    this.getEmployee(this.state.currentTypeKey, this.state.currentSubTypeKey, 1, null);
+    this.getEmployees(this.state.currentPage);
 
   }
 
@@ -199,6 +205,11 @@ class EmployeeList extends Component {
         title: '英文名',
         dataIndex: 'englishName',
         key: 'englishName',
+      },
+      {
+        title: '性别',
+        dataIndex: 'gender',
+        key: 'gender',
       },
       {
         title: '员工号',
@@ -222,16 +233,31 @@ class EmployeeList extends Component {
         }
       },
       {
+        title: '邮箱',
+        dataIndex: 'email',
+        key: 'email',
+      },
+      {
+        title: '手机号',
+        dataIndex: 'phone',
+        key: 'phone',
+      },
+      {
         title: '办公地',
         dataIndex: 'location',
         key: 'location',
+      },
+      {
+        title: '部门',
+        dataIndex: 'department',
+        key: 'department',
       },
       {
         title: "操作",
         width: '140px',
         render(value, data) {
           return <span>
-            <Button type="primary" size="small" onClick={self.clickEditEmployeeButton} >编辑</Button> &nbsp;&nbsp;
+            <Button type="primary" size="small" onClick={self.clickEditEmployeeButton}> 编辑</Button> &nbsp;&nbsp;
             <Button type="primary" size="small" onClick={self.clickDeleteEmployeeButton}>删除</Button>
           </span>;
         }
@@ -243,7 +269,17 @@ class EmployeeList extends Component {
           {this.getContentByAction()}
         </Modal>
         <Button onClick={this.clickAddEmployeeButton} type="primary">添加</Button>
-        <Table style={{ marginTop: '8px' }} dataSource={this.state.employees} columns={columns} >
+        <Table
+          onRowClick={self.handleRowClick}
+          style={{ marginTop: '8px' }}
+          dataSource={this.state.employees}
+          columns={columns}
+          expandedRowRender={record => <div>
+            <p style={{ margin: 0 }}> 【部门】  {record.department}</p>
+            <p style={{ margin: 0 }}> 【备注】  {record.description}</p>
+          </div>
+          }
+        >
         </Table>
       </div>
     );
