@@ -1,5 +1,6 @@
 import { Form, Input, Select, Button, InputNumber } from 'antd';
 
+import * as  AssessService from '../../services/AssessService';
 const { Option } = Select;
 
 class AssessInput extends React.Component {
@@ -77,11 +78,28 @@ class AssessInput extends React.Component {
 
 class AssessOne extends React.Component {
   handleSubmit = e => {
+    const self = this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
+
+      AssessService.save(values, {
+
+        success: function (resp) {
+          self.setState({
+            loading: false,
+            employees: resp
+          });
+        },
+        error: function () {
+          message.error("提交考核失败！");
+        },
+        complete: function () {
+
+        }
+      })
     });
   };
 
@@ -97,6 +115,11 @@ class AssessOne extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
+        <Form.Item label="阶段">
+          {getFieldDecorator('phase', {
+            initialValue: 1
+          })(<Input value={1} hidden />)}
+        </Form.Item>
         <Form.Item label="工作态度">
           {getFieldDecorator('attitude', {
             initialValue: { number: 2, percent: 40 }
