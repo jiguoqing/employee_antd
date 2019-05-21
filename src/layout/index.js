@@ -20,12 +20,18 @@ export default class BasicLayout extends Component {
               </Link>
             </Menu.Item>
             <SubMenu
-              key="sub1"
-              title={<span><Icon type="dashboard" /><span>Dashboard</span></span>}
+              key="daily"
+              title={<span><Icon type="dashboard" /><span>日常管理</span></span>}
             >
-              <Menu.Item key="3"><Link to="/dashboard/analysis">分析页</Link></Menu.Item>
-              <Menu.Item key="4"><Link to="/dashboard/monitor">监控页</Link></Menu.Item>
-              <Menu.Item key="5"><Link to="/dashboard/workplace">工作台</Link></Menu.Item>
+              <Menu.Item key="3"><Link to="/assess/list">员工考核</Link></Menu.Item>
+              <Menu.Item key="4"><Link to="/project/list">项目管理</Link></Menu.Item>
+            </SubMenu>
+            <SubMenu
+              key="admin"
+              title={<span><Icon type="dashboard" /><span>管理员</span></span>}
+            >
+              <Menu.Item key="3"><Link to="/employee/list">员工管理</Link></Menu.Item>
+              <Menu.Item key="4"><Link to="/department/list">部门管理</Link></Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>

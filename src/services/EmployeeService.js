@@ -4,23 +4,6 @@ import * as CollectionUtil from '../utils/CollectionUtil';
 
 
 /**
- * 通过查询条件获取列表
- *
- * @param conditions 查询条件
- * @param options    请求配置
- * @returns {*}
- */
-export function findByConditions(conditions, options) {
-  if (CollectionUtil.isEmpty(conditions)) {
-    return;
-  }
-  if (StringUtil.isBlank(conditions.sceneId)) {
-    return;
-  }
-  return Employee.findByConditions(conditions, options);
-}
-
-/**
  * 保存
  *
  * @param employee    
@@ -70,49 +53,4 @@ export function deleteById(id, options) {
     return;
   }
   return Employee.deleteById(id, options);
-}
-
-
-/**
- * 查询列表
- *
- * @param appId  应用ID
- * @param pageSize    每页显示条数
- * @param currentPage    单前页
- * @param formData 
- * @param options 请求配置
- * @returns {*}
- */
-export function findRelateByPageModel(targetId, pageSize, currentPage, formData, exclude, targetType, options) {
-  var scenes = Employee.findRelateByPageModel(targetId, pageSize, currentPage, formData, exclude, targetType, options);
-  return scenes;
-}
-
-/**
- * 保存应用对应的
- *
- * @param appId    应用ID
- * @param EmployeeIds    选中的ids 
- * @param options 请求配置
- */
-export function addEmployees(appId, EmployeeIds, targetType, options) {
-  if (StringUtil.isBlank(appId)) {
-    return;
-  }
-  if (CollectionUtil.isEmpty(EmployeeIds)) {
-    return;
-  }
-  return Employee.addEmployees(appId, EmployeeIds, targetType, options);
-}
-
-/**
- * 删除应用关联的
- *
- * @param appId  应用Id
- * @param employeeId  ID
- * @param options 请求配置
- * @returns {*}
- */
-export function deleteEmployee(appId, employeeId, options) {
-  return Employee.deleteEmployee(appId, employeeId, options);
 }

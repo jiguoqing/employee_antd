@@ -114,16 +114,11 @@ class AssessOne extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit}>
-        <Form.Item label="阶段">
+      <Form layout="inline" onSubmit={this.handleSubmit} >
+        <Form.Item>
           {getFieldDecorator('phase', {
             initialValue: 1
           })(<Input value={1} hidden />)}
-        </Form.Item>
-        <Form.Item label="工作态度">
-          {getFieldDecorator('attitude', {
-            initialValue: { number: 2, percent: 40 }
-          })(<AssessInput />)}
         </Form.Item>
         <Form.Item label="工作能力">
           {getFieldDecorator('ability', {

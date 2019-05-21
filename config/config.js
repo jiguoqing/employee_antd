@@ -13,15 +13,21 @@ export default {
         component: 'employee/List',
       },
       {
-        path: '/employee',
+        path: '/employee/list',
         component: 'employee/List'
       },
       {
-        path: '/dashboard',
+        path: '/日常管理',
         routes: [
-          { path: '/dashboard/analysis', component: 'Dashboard/Analysis' },
-          { path: '/dashboard/monitor', component: 'Dashboard/Monitor' },
-          { path: '/dashboard/workplace', component: 'Dashboard/Workplace' }
+          { path: '/assess/list', component: 'Dashboard/Analysis' },
+          { path: '/project/list', component: 'Dashboard/Monitor' }
+        ]
+      },
+      {
+        path: '/管理员',
+        routes: [
+          { path: '/employee/list', component: 'employee/List' },
+          { path: '/department/list', component: 'department/DepartmentList' }
         ]
       },
     ]

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { message, Form, Input, Button, DatePicker, Radio } from 'antd';
+import { message, Form, Input, Button, DatePicker, Radio, Select } from 'antd';
 import moment from 'moment';
 import * as StringUtil from '../../utils/StringUtil';
 import * as DataUtil from '../../utils/DataUtil';
 import * as DateUtil from '../../utils/DateUtil';
+const Option = Select.Option;
 
 
 const FormItem = Form.Item;
@@ -80,6 +81,7 @@ class EmployeeEditor extends Component {
     const data = this.props.data;
 
     let onboardAt = data == null ? null : moment(DateUtil.formatDate(data.onboardAt), 'YYYY-MM-DD');
+    let leavedAt = data == null ? null : moment(DateUtil.formatDate(data.leavedAt), 'YYYY-MM-DD');
     // let onboardAt = moment(DateUtil.formatDate(data.onboardAt), 'YYYY-MM-DD');
 
     // let time = moment();
@@ -118,6 +120,16 @@ class EmployeeEditor extends Component {
             )}
           </FormItem>
 
+          <FormItem label="状态" {...formItemLayout}>
+            {getFieldDecorator("status")(
+              <Select placeholder="状态">
+                <Option value="INTER">实习生</Option>
+                <Option value="TRIAL">试用期</Option>
+                <Option value="ON_DUTY">在职</Option>
+                <Option value="LEAVE">离职</Option>
+              </Select>
+            )}
+          </FormItem>
           <FormItem label="入职日期：" {...formItemLayout}>
             {getFieldDecorator("onboardAt", { initialValue: onboardAt })(
               <DatePicker placeholder="入职日期" format={"YYYY-MM-DD"} />
@@ -126,6 +138,11 @@ class EmployeeEditor extends Component {
           <FormItem label="职位：" {...formItemLayout}>
             {getFieldDecorator("jobTitle", { initialValue: DataUtil.fill(data, "jobTitle") })(
               <Input placeholder="职位" />
+            )}
+          </FormItem>
+          <FormItem label="层级：" {...formItemLayout}>
+            {getFieldDecorator("level", { initialValue: DataUtil.fill(data, "level") })(
+              <Input placeholder="层级" />
             )}
           </FormItem>
           <FormItem label="部门：" {...formItemLayout}>
@@ -150,6 +167,11 @@ class EmployeeEditor extends Component {
             )}
           </FormItem>
 
+          <FormItem label="离职日期：" {...formItemLayout}>
+            {getFieldDecorator("leavedAt", { initialValue: leavedAt })(
+              <DatePicker placeholder="离职日期" format={"YYYY-MM-DD"} />
+            )}
+          </FormItem>
           <FormItem label="备注：" {...formItemLayout}>
             {getFieldDecorator("description", { initialValue: DataUtil.fill(data, "description") })(
               <Input type='textarea' placeholder="备注" />
