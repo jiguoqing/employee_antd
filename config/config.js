@@ -16,20 +16,11 @@ export default {
         path: '/employee/list',
         component: 'employee/List'
       },
-      {
-        path: '/日常管理',
-        routes: [
-          { path: '/assess/list', component: 'Dashboard/Analysis' },
-          { path: '/project/list', component: 'Dashboard/Monitor' }
-        ]
-      },
-      {
-        path: '/管理员',
-        routes: [
-          { path: '/employee/list', component: 'employee/List' },
-          { path: '/department/list', component: 'department/DepartmentList' }
-        ]
-      },
+      { path: '/assess/list', component: 'Dashboard/Analysis' },
+      { path: '/project/list', component: 'Dashboard/Monitor' },
+      { path: '/employee/list', component: 'employee/List' },
+      { path: '/department/list', component: 'department/departmentList' }
+    
     ]
   }],
   proxy: {
