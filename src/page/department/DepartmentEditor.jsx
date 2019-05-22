@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { message, Form, Input, Button, DatePicker, Radio, Select } from 'antd';
-import moment from 'moment';
+import { message, Form, Input, Button } from 'antd';
 import * as StringUtil from '../../utils/StringUtil';
 import * as DataUtil from '../../utils/DataUtil';
-import * as DateUtil from '../../utils/DateUtil';
-const Option = Select.Option;
-
-
+const { TextArea } = Input;
 const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
 /**
  * 员工编辑器
  */
@@ -78,12 +73,20 @@ class EmployeeEditor extends Component {
           )}
           <FormItem label="部门名称：" {...formItemLayout}>
             {getFieldDecorator("name", { initialValue: DataUtil.fill(data, "name") })(
-              <Input placeholder="部门名称" />
+              <Input placeholder="请输入部门名称" />
+            )}
+          </FormItem>
+          <FormItem label="部门负责人：" {...formItemLayout}>
+            {getFieldDecorator("owner", { initialValue: DataUtil.fill(data, "owner") })(
+              <Input placeholder="请输入部门负责人" />
             )}
           </FormItem>
           <FormItem label="描述：" {...formItemLayout}>
             {getFieldDecorator("description", { initialValue: DataUtil.fill(data, "description") })(
-              <Input type='textarea' placeholder="备注" />
+              <TextArea type='textarea' 
+              placeholder="请输入描述"
+              autosize={{ minRows: 2, maxRows: 6 }}
+              />
             )}
           </FormItem>
 

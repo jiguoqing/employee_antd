@@ -5,8 +5,7 @@ import * as StringUtil from '../../utils/StringUtil';
 import * as DataUtil from '../../utils/DataUtil';
 import * as DateUtil from '../../utils/DateUtil';
 const Option = Select.Option;
-
-
+const { TextArea } = Input;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 /**
@@ -97,12 +96,12 @@ class EmployeeEditor extends Component {
           )}
           <FormItem label="姓名：" {...formItemLayout}>
             {getFieldDecorator("name", { initialValue: DataUtil.fill(data, "name") })(
-              <Input placeholder="姓名" />
+              <Input placeholder="请输入姓名" />
             )}
           </FormItem>
           <FormItem label="英文名：" {...formItemLayout}>
             {getFieldDecorator("englishName", { initialValue: DataUtil.fill(data, "englishName") })(
-              <Input placeholder="英文名" />
+              <Input placeholder="请输入英文名" />
             )}
           </FormItem>
           <FormItem label="性别：" {...formItemLayout}>
@@ -116,13 +115,13 @@ class EmployeeEditor extends Component {
 
           <FormItem label="员工号：" {...formItemLayout}>
             {getFieldDecorator("code", { initialValue: DataUtil.fill(data, "code") })(
-              <Input placeholder="员工号" />
+              <Input placeholder="请输入员工号" />
             )}
           </FormItem>
 
           <FormItem label="状态" {...formItemLayout}>
             {getFieldDecorator("status")(
-              <Select placeholder="状态">
+              <Select placeholder="请输入状态">
                 <Option value="INTER">实习生</Option>
                 <Option value="TRIAL">试用期</Option>
                 <Option value="ON_DUTY">在职</Option>
@@ -132,49 +131,51 @@ class EmployeeEditor extends Component {
           </FormItem>
           <FormItem label="入职日期：" {...formItemLayout}>
             {getFieldDecorator("onboardAt", { initialValue: onboardAt })(
-              <DatePicker placeholder="入职日期" format={"YYYY-MM-DD"} />
+              <DatePicker placeholder="请输入入职日期" format={"YYYY-MM-DD"} />
             )}
           </FormItem>
           <FormItem label="职位：" {...formItemLayout}>
             {getFieldDecorator("jobTitle", { initialValue: DataUtil.fill(data, "jobTitle") })(
-              <Input placeholder="职位" />
+              <Input placeholder="请输入职位" />
             )}
           </FormItem>
           <FormItem label="层级：" {...formItemLayout}>
             {getFieldDecorator("level", { initialValue: DataUtil.fill(data, "level") })(
-              <Input placeholder="层级" />
+              <Input placeholder="请输入层级" />
             )}
           </FormItem>
           <FormItem label="部门：" {...formItemLayout}>
             {getFieldDecorator("department", { initialValue: DataUtil.fill(data, "department") })(
-              <Input placeholder="部门" />
+              <Input placeholder="请输入部门" />
             )}
           </FormItem>
           <FormItem label="Email：" {...formItemLayout}>
             {getFieldDecorator("email", { initialValue: DataUtil.fill(data, "email") })(
-              <Input placeholder="Email" />
+              <Input placeholder="请输入Email" />
             )}
           </FormItem>
 
           <FormItem label="手机：" {...formItemLayout}>
             {getFieldDecorator("phone", { initialValue: DataUtil.fill(data, "phone") })(
-              <Input placeholder="手机" />
+              <Input placeholder="请输入手机" />
             )}
           </FormItem>
           <FormItem label="办公地：" {...formItemLayout}>
             {getFieldDecorator("location", { initialValue: DataUtil.fill(data, "location") })(
-              <Input placeholder="办公地" />
+              <Input placeholder="请输入办公地" />
             )}
           </FormItem>
 
           <FormItem label="离职日期：" {...formItemLayout}>
             {getFieldDecorator("leavedAt", { initialValue: leavedAt })(
-              <DatePicker placeholder="离职日期" format={"YYYY-MM-DD"} />
+              <DatePicker placeholder="请输入离职日期" format={"YYYY-MM-DD"} />
             )}
           </FormItem>
           <FormItem label="备注：" {...formItemLayout}>
             {getFieldDecorator("description", { initialValue: DataUtil.fill(data, "description") })(
-              <Input type='textarea' placeholder="备注" />
+              <TextArea type='textarea' placeholder="请输入备注" 
+              autosize={{ minRows: 2, maxRows: 6 }}
+              />
             )}
           </FormItem>
 

@@ -230,6 +230,9 @@ class DepartmentList extends Component {
           style={{ marginTop: '8px' }}
           dataSource={this.state.departments}
           columns={columns}
+          expandedRowRender={record => <div>
+            <p style={{ margin: 0 }}> 【备注】  {record.description}</p>
+          </div>}
         >
         </Table>
       </div>

@@ -53,7 +53,7 @@ export function deleteById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
     url: "/oa/department/deleteById",
-    method: "DELETE",
+    method: "POST",
     data: {
       id: id
     },
