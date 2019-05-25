@@ -3,7 +3,7 @@ import { message, Form, Input, Button, DatePicker, Radio, Select } from 'antd';
 import moment from 'moment';
 import * as StringUtil from '../../utils/StringUtil';
 import * as DataUtil from '../../utils/DataUtil';
-import * as DateUtil from '../../utils/DateUtil';
+import * as  DepartmentService from '../../services/DepartmentService';
 const Option = Select.Option;
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -16,7 +16,8 @@ class EmployeeEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      departments: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -58,12 +59,48 @@ class EmployeeEditor extends Component {
       onCancel();
     }
   }
+ 
+  /**
+   * 查询
+   *
+   * @param value
+   */
+  handleChange=(value)=> {
+    let temp = [];
 
+const Option = Select.Option;
 
+    const self = this;
+    DepartmentService.findByName(value,{
+      success(resp) {
+	   if (resp.length > 0) {
+          temp = resp.map((department,index) => {		  
+            return <Option key={department.id}>
+                {department.name}
+            </Option>;
+          });
+		 self.setState({
+          data: temp
+        });
+        }
+      },
+      error() {
+        self.setState({
+          data: temp
+        });
+      },
+      complete() {
+      }
+    });
+  }
+
+  
+ 
   /**
   * 组件生命周期相关
   */
   componentDidMount() {
+    // this.getDepartments();
 
   }
 
@@ -78,7 +115,7 @@ class EmployeeEditor extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const data = this.props.data;
-
+    const departments = this.props.departments;
     let onboardAt = data == null ? null : moment(DateUtil.formatDate(data.onboardAt), 'YYYY-MM-DD');
     let leavedAt = data == null ? null : moment(DateUtil.formatDate(data.leavedAt), 'YYYY-MM-DD');
     // let onboardAt = moment(DateUtil.formatDate(data.onboardAt), 'YYYY-MM-DD');
@@ -145,10 +182,19 @@ class EmployeeEditor extends Component {
             )}
           </FormItem>
           <FormItem label="部门：" {...formItemLayout}>
-            {getFieldDecorator("department", { initialValue: DataUtil.fill(data, "department") })(
-              <Input placeholder="请输入部门" />
-            )}
+   
+
+              <Select showSearch optionFilterProp="department" placeholder="请输入部门名称关键字进行搜索">
+              {
+                departments.map((department, index) => {
+                  return <Option key={index.toString()} value={department.id.toString()}>
+
+              {department.name}</Option>
+                })
+              }
+              </Select>
           </FormItem>
+          
           <FormItem label="Email：" {...formItemLayout}>
             {getFieldDecorator("email", { initialValue: DataUtil.fill(data, "email") })(
               <Input placeholder="请输入Email" />

@@ -25,16 +25,27 @@ export function save(department, options) {
 }
 
 
-/**
- * 分页查询
- * @param options 请求配置
- */
 
 export function findAll(options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
     url: "/oa/department/findAll",
     method: "GET",
+    success: function (resp) {
+      options.success(resp);
+    },
+    error: options.error,
+    complete: options.complete
+  });
+}
+export function findByName(name,options) {
+  options = OptionsHelper.generate(options);
+  return $.ajax({
+    url: "/oa/department/findByName",
+    method: "GET",
+    data:{
+      name:name
+    },
     success: function (resp) {
       options.success(resp);
     },

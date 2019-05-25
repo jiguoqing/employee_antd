@@ -1,6 +1,8 @@
 import { Table, message, Button, Modal, Alert } from 'antd';
 import React, { Component } from 'react';
 import * as  EmployeeService from '../../services/EmployeeService.js';
+import * as  DepartmentService from '../../services/DepartmentService';
+
 import * as DateUtil from '../../utils/DateUtil';
 import * as StringUtil from '../../utils/StringUtil';
 import Actions from '../actions/Actions'
@@ -15,9 +17,25 @@ class EmployeeList extends Component {
       employees: null,
       currentPage: 1,
       pageSize: 10,
+      departments:[]
     };
   }
+ getDepartments=()=>{
+    DepartmentService.findAll( {
 
+      success: function (resp) {
+        self.setState({
+          departments: resp
+        });
+      },
+      error: function () {
+        message.error("获取部门信息失败！");
+      },
+      complete: function () {
+
+      }
+  })
+  }
   getEmployees = (page) => {
     var currentPage = null;
     if (page == null) {
@@ -199,9 +217,9 @@ class EmployeeList extends Component {
   getContentByAction = () => {
     switch (this.action) {
       case Actions.ADD:
-        return this.state.visible ? <EmployeeEditor data={null} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <EmployeeEditor data={null} departments = {this.state.departments} nSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.EDIT:
-        return this.state.visible ? <EmployeeEditor data={this.state.employee} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <EmployeeEditor data={this.state.employee} departments = {this.state.departments}  onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.DELETE:
         return <Alert
           message="确定要删除当前员工吗？"
@@ -216,7 +234,7 @@ class EmployeeList extends Component {
   componentDidMount() {
 
     this.getEmployees(this.state.currentPage);
-
+    this.getDepartments();
   }
 
   render() {

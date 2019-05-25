@@ -20,20 +20,13 @@ export function findAll(options) {
   return Department.findAll(options);
 }
 
-/**
- * 查询详情
- *
- * @param id  编号
- * @param options 请求配置
- * @returns {*}
- */
-export function findById(id, options) {
-  if (StringUtil.isBlank(id)) {
+
+export function findByName(name, options) {
+  if (StringUtil.isBlank(name)) {
     return;
   }
-  return Department.findById(id, options);
+  return Department.findByName(name, options);
 }
-
 /**
  * 删除
  *
