@@ -21,6 +21,23 @@ class EmployeeList extends Component {
       count:0
     };
   }
+
+  getDepartments=()=>{
+    DepartmentService.findAll( {
+
+      success: function (resp) {
+        self.setState({
+          departments: resp
+        });
+      },
+      error: function () {
+        message.error("获取部门信息失败！");
+      },
+      complete: function () {
+
+      }
+  })
+  }
   getEmployees = (page) => {
     var currentPage = null;
     if (page == null) {
@@ -239,6 +256,7 @@ class EmployeeList extends Component {
 
     this.getEmployees(this.state.currentPage);
     this.countByCondition();
+    this.getDepartments();
   }
 
   render() {
