@@ -8,6 +8,7 @@ const Option = Select.Option;
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+const splitCode = "##_";
 /**
  * 员工编辑器
  */
@@ -43,6 +44,7 @@ class EmployeeEditor extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const formData = this.props.form.getFieldsValue();
+    formData.departmentId = formData.departmentId? formData.departmentId.split(splitCode)[0]:null;
     if (!this.validate(formData)) return;
     const onSubmit = this.props.onSubmit;
     if (onSubmit) {
@@ -127,7 +129,7 @@ const Option = Select.Option;
     };
     return (
       <div >
-        <Form horizontal onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           {getFieldDecorator("id", { initialValue: DataUtil.fill(data, "id") })(
             <Input type="hidden" />
           )}
@@ -183,16 +185,20 @@ const Option = Select.Option;
           </FormItem>
           <FormItem label="部门：" {...formItemLayout}>
    
+          {getFieldDecorator("departmentId")(
 
-              <Select showSearch optionFilterProp="department" placeholder="请输入部门名称关键字进行搜索">
+              <Select showSearch 
+               placeholder="请输入部门名称关键字进行搜索"
+               >
               {
                 departments.map((department, index) => {
-                  return <Option key={index.toString()} value={department.id.toString()}>
+                  return <Option key={index.toString()} value={department.id+splitCode+department.name}>
 
               {department.name}</Option>
                 })
               }
               </Select>
+          )}
           </FormItem>
           
           <FormItem label="Email：" {...formItemLayout}>

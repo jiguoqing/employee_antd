@@ -217,7 +217,7 @@ class EmployeeList extends Component {
   getContentByAction = () => {
     switch (this.action) {
       case Actions.ADD:
-        return this.state.visible ? <EmployeeEditor data={null} departments = {this.state.departments} nSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <EmployeeEditor data={null} departments = {this.state.departments} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.EDIT:
         return this.state.visible ? <EmployeeEditor data={this.state.employee} departments = {this.state.departments}  onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
       case Actions.DELETE:
