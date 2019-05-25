@@ -22,10 +22,17 @@ export function save(employee, options) {
  * @param pageSize    每页显示条数
  * @param currentPage    单前页
  * @param options 请求配置
- */find
-export function findByPageModel(pageSize, currentPage, formData, options) {
-  return Employee.findByPage(pageSize, currentPage, formData, options);
+ */
+export function findByCondition( formData, options) {
+
+  return Employee.findByCondition(formData, options);
 }
+
+export function countByCondition( formData, options) {
+
+  return Employee.countByCondition(formData, options);
+}
+
 
 /**
  * 查询详情

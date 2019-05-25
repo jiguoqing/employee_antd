@@ -1,4 +1,4 @@
-import { Table, message, Button, Modal, Alert } from 'antd';
+import { Table,Pagination, message, Button, Modal, Alert } from 'antd';
 import React, { Component } from 'react';
 import * as  EmployeeService from '../../services/EmployeeService.js';
 import * as  DepartmentService from '../../services/DepartmentService';
@@ -14,27 +14,12 @@ class EmployeeList extends Component {
     super(props);
     this.state = {
       visible: false,   // 对话框显示状态
-      employees: null,
+      employees: [],
       currentPage: 1,
       pageSize: 10,
-      departments:[]
+      departments:[],
+      count:0
     };
-  }
- getDepartments=()=>{
-    DepartmentService.findAll( {
-
-      success: function (resp) {
-        self.setState({
-          departments: resp
-        });
-      },
-      error: function () {
-        message.error("获取部门信息失败！");
-      },
-      complete: function () {
-
-      }
-  })
   }
   getEmployees = (page) => {
     var currentPage = null;
@@ -46,7 +31,8 @@ class EmployeeList extends Component {
     const self = this;
 
     const formData = {};
-    EmployeeService.findByPageModel(this.state.pageSize, this.state.currentPage, formData, {
+    formData.currentPage=currentPage;
+    EmployeeService.findByCondition( formData, {
 
       success: function (resp) {
         self.setState({
@@ -62,6 +48,24 @@ class EmployeeList extends Component {
       }
     });
 
+  }
+
+  countByCondition=()=>{
+    const formData = {};
+    EmployeeService.countByCondition( formData, {
+
+      success: function (resp) {
+        self.setState({
+          count: resp
+        });
+      },
+      error: function () {
+        message.error("加载员工数量失败！");
+      },
+      complete: function () {
+
+      }
+    });
   }
   clickEditEmployeeButton = () => {
     this.setAction(Actions.EDIT);
@@ -234,7 +238,7 @@ class EmployeeList extends Component {
   componentDidMount() {
 
     this.getEmployees(this.state.currentPage);
-    this.getDepartments();
+    this.countByCondition();
   }
 
   render() {
@@ -317,6 +321,7 @@ class EmployeeList extends Component {
         <Table
           onRowClick={self.handleRowClick}
           style={{ marginTop: '8px' }}
+          pagination={false}
           dataSource={this.state.employees}
           columns={columns}
           expandedRowRender={record => <div>
@@ -326,6 +331,9 @@ class EmployeeList extends Component {
           }
         >
         </Table>
+        <Pagination defaultCurrent={this.state.currentPage} 
+        onChange={this.getEmployees}
+        total={this.state.count} />
       </div>
     );
   }

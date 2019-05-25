@@ -33,15 +33,17 @@ export function save(employee, options) {
  * @param options 请求配置
  */
 
-export function findByPage(pageSize, currentPage, formData, options) {
+export function findByCondition(formData, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
     url: "/oa/employee/findByCondition",
+    contentType: "application/json",
     method: "GET",
-    data: {
-      page: currentPage,                        	 // 当前页
-      name: formData.name,
-    },
+    data: formData,
+    // data: {
+    //   page: currentPage,                        	 // 当前页
+    //   name: formData.name,
+    // },
     success: function (resp) {
       // if (ResponseHelper.isSuccess(resp)) {           // 成功
       options.success(resp);
@@ -53,6 +55,22 @@ export function findByPage(pageSize, currentPage, formData, options) {
     complete: options.complete
   });
 }
+
+export function countByCondition(formData, options) {
+  options = OptionsHelper.generate(options);
+  return $.ajax({
+    url: "/oa/employee/countByCondition",
+    contentType: "application/json",
+    method: "GET",
+    data: formData,
+    success: function (resp) {
+      options.success(resp);
+    },
+    error: options.error,
+    complete: options.complete
+  });
+}
+
 /**
  * 查询详情
  *
