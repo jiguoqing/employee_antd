@@ -232,8 +232,6 @@ class EmployeeList extends Component {
         return "编辑员工";
       case Actions.DELETE:
         return "删除员工";
-      case Actions.DELETE:
-        return "考核员工";
     }
   }
 
@@ -337,7 +335,6 @@ class EmployeeList extends Component {
           return <span>
             <Button type="primary" size="small" onClick={self.clickEditEmployeeButton}> 编辑</Button> &nbsp;&nbsp;
             <Button type="primary" size="small" onClick={self.clickDeleteEmployeeButton}>删除</Button>
-            <Button type="primary" size="small" onClick={self.clickAssessEmployeeButton}>考核</Button>
           </span>;
         }
       }
