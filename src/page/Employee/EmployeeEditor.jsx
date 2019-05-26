@@ -161,7 +161,7 @@ const Option = Select.Option;
           </FormItem>
 
           <FormItem label="状态" {...formItemLayout}>
-            {getFieldDecorator("status")(
+            {getFieldDecorator("status", { initialValue: DataUtil.fill(data, "status") })(
               <Select placeholder="请输入状态">
                 <Option value="INTER">实习生</Option>
                 <Option value="TRIAL">试用期</Option>
@@ -187,7 +187,7 @@ const Option = Select.Option;
           </FormItem>
           <FormItem label="部门：" {...formItemLayout}>
    
-          {getFieldDecorator("departmentId")(
+          {getFieldDecorator("departmentId", { initialValue: DataUtil.fill(data, "departmentId") })(
 
               <Select showSearch 
                placeholder="请输入部门名称关键字进行搜索"

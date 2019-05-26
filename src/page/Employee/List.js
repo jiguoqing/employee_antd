@@ -298,16 +298,16 @@ class EmployeeList extends Component {
           return DateUtil.formatDate(value);
         }
       },
-      {
-        title: '邮箱',
-        dataIndex: 'email',
-        key: 'email',
-      },
-      {
-        title: '手机号',
-        dataIndex: 'phone',
-        key: 'phone',
-      },
+      // {
+      //   title: '邮箱',
+      //   dataIndex: 'email',
+      //   key: 'email',
+      // },
+      // {
+      //   title: '手机号',
+      //   dataIndex: 'phone',
+      //   key: 'phone',
+      // },
       {
         title: '办公地',
         dataIndex: 'location',
@@ -317,6 +317,11 @@ class EmployeeList extends Component {
         title: '部门',
         dataIndex: 'department',
         key: 'department',
+        render(value, data) {
+          return <span>
+          {data.department?data.department.name:"--"}
+          </span>
+        }
       },
       {
         title: "操作",
@@ -343,7 +348,9 @@ class EmployeeList extends Component {
           dataSource={this.state.employees}
           columns={columns}
           expandedRowRender={record => <div>
-            <p style={{ margin: 0 }}> 【部门】  {record.department}</p>
+            <p style={{ margin: 0 }}> 【部门】  {record.department?record.department.name:"--"}</p>
+            <p style={{ margin: 0 }}> 【手机】  {record.phone}</p>
+            <p style={{ margin: 0 }}> 【邮箱】  {record.email}</p>
             <p style={{ margin: 0 }}> 【备注】  {record.description}</p>
           </div>
           }
