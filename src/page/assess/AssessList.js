@@ -6,8 +6,8 @@ import * as  DepartmentService from '../../services/DepartmentService';
 import * as DateUtil from '../../utils/DateUtil';
 import * as StringUtil from '../../utils/StringUtil';
 import Actions from '../actions/Actions'
-import EmployeeEditor from './EmployeeEditor';
-import AssessEditor from '../assess/AssessEditor';
+// import EmployeeEditor from './EmployeeEditor';
+import AssessEditor from './AssessEditor';
 
 class EmployeeList extends Component {
   constructor(props) {
@@ -38,13 +38,6 @@ class EmployeeList extends Component {
       }
   })
   }
-  onChangePage=(page)=>{ 
-    this.setState({
-    loading: false,
-    currentPage: page
-  });
-    this.getEmployees(page);
-  }
   getEmployees = (page) => {
     var currentPage = null;
     if (page == null) {
@@ -55,6 +48,8 @@ class EmployeeList extends Component {
     const self = this;
 
     const formData = {};
+
+    formData.statuses= "INTER,TRIAL";
     formData.currentPage=currentPage;
     EmployeeService.findByCondition( formData, {
 
@@ -65,7 +60,7 @@ class EmployeeList extends Component {
         });
       },
       error: function () {
-        message.error("加载员工列表失败！");
+        message.error("加载待考核员工列表失败！");
       },
       complete: function () {
 
@@ -76,6 +71,7 @@ class EmployeeList extends Component {
 
   countByCondition=()=>{
     const formData = {};
+    formData.statuses= "INTER,TRIAL";
     EmployeeService.countByCondition( formData, {
 
       success: function (resp) {
@@ -84,21 +80,13 @@ class EmployeeList extends Component {
         });
       },
       error: function () {
-        message.error("加载员工数量失败！");
+        message.error("加载待考核员工数量失败！");
       },
       complete: function () {
 
       }
     });
   }
-  clickEditEmployeeButton = () => {
-    this.setAction(Actions.EDIT);
-    this.showModal();
-  };
-  clickDeleteEmployeeButton = () => {
-    this.setAction(Actions.DELETE);
-    this.showModal();
-  };
   clickAssessEmployeeButton = () => {
     this.setAction(Actions.ASSESS);
     this.showModal();
@@ -108,13 +96,6 @@ class EmployeeList extends Component {
   };
 
 
-  clickAddEmployeeButton = () => {
-    this.setAction(Actions.ADD);
-    this.setState({
-      employee: null
-    });
-    this.showModal();
-  }
   setAction = (action) => {
     this.action = action;
   }
@@ -126,48 +107,7 @@ class EmployeeList extends Component {
     });
   }
 
-  /**
-  * 表单元素重置
-  * @param e
-  */
-  handleReset = (e) => {
-    e.preventDefault();
-    this.props.form.resetFields();
-  }
-  handleEditorSubmit = (formData) => {
-    const self = this;
-
-    StringUtil.trimObject(formData);    // 去除所有空格
-
-    EmployeeService.save(formData, {
-      success() {
-        message.success("保存成功");
-        self.hideModal();
-        self.getEmployees(self.state.currentPage);
-      },
-      error() {
-        message.error("保存失败");
-      },
-      complete() {
-      }
-    });
-  }
-  handleDelete = () => {
-
-    const self = this;
-    EmployeeService.deleteById(this.state.employee.id, {
-      success() {
-        message.success("删除成功");
-        self.hideModal();
-        self.getEmployees(self.state.currentPage);
-      },
-      error() {
-        message.error("删除失败");
-      },
-      complete() {
-      }
-    });
-  }
+ 
   /**
    * 显示对话框
    */
@@ -188,12 +128,6 @@ class EmployeeList extends Component {
 
   getWidthByAction = () => {
     switch (this.action) {
-      case Actions.ADD:
-        return 600;
-      case Actions.EDIT:
-        return 600;
-      case Actions.DELETE:
-        return 400;
       case Actions.ASSESS:
         return 800;
     }
@@ -204,16 +138,7 @@ class EmployeeList extends Component {
    */
   getFooterByAction = () => {
     switch (this.action) {
-      case Actions.ADD:
-        this.action = Actions.ADD;
-        return false;
-      case Actions.EDIT:
-        this.action = Actions.EDIT;
-        return false;
-      case Actions.DELETE:
-        this.action = Actions.DELETE;
-        return <span><Button onClick={this.clickCancelButton} type="ghost">取消</Button>&nbsp;&nbsp;<Button onClick={this.handleDelete} type="primary">确定</Button></span>;
-      case Actions.ASSESS:
+     case Actions.ASSESS:
         this.action = Actions.ASSESS;
         return false;
     }
@@ -226,13 +151,7 @@ class EmployeeList extends Component {
    */
   getTitleByAction = () => {
     switch (this.action) {
-      case Actions.ADD:
-        return "添加员工";
-      case Actions.EDIT:
-        return "编辑员工";
-      case Actions.DELETE:
-        return "删除员工";
-      case Actions.DELETE:
+      case Actions.ASSESS:
         return "考核员工";
     }
   }
@@ -244,16 +163,6 @@ class EmployeeList extends Component {
    */
   getContentByAction = () => {
     switch (this.action) {
-      case Actions.ADD:
-        return this.state.visible ? <EmployeeEditor data={null} departments = {this.state.departments} onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
-      case Actions.EDIT:
-        return this.state.visible ? <EmployeeEditor data={this.state.employee} departments = {this.state.departments}  onSubmit={this.handleEditorSubmit} onCancel={this.clickCancelButton} /> : null;
-      case Actions.DELETE:
-        return <Alert
-          message="确定要删除当前员工吗？"
-          type="warning"
-          showIcon
-        />;
       case Actions.ASSESS:
         return this.state.visible ? <AssessEditor data={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
     }
@@ -305,16 +214,6 @@ class EmployeeList extends Component {
           return DateUtil.formatDate(value);
         }
       },
-      // {
-      //   title: '邮箱',
-      //   dataIndex: 'email',
-      //   key: 'email',
-      // },
-      // {
-      //   title: '手机号',
-      //   dataIndex: 'phone',
-      //   key: 'phone',
-      // },
       {
         title: '办公地',
         dataIndex: 'location',
@@ -335,8 +234,6 @@ class EmployeeList extends Component {
         width: '140px',
         render(value, data) {
           return <span>
-            <Button type="primary" size="small" onClick={self.clickEditEmployeeButton}> 编辑</Button> &nbsp;&nbsp;
-            <Button type="primary" size="small" onClick={self.clickDeleteEmployeeButton}>删除</Button>
             <Button type="primary" size="small" onClick={self.clickAssessEmployeeButton}>考核</Button>
           </span>;
         }
@@ -347,7 +244,6 @@ class EmployeeList extends Component {
         <Modal footer={this.getFooterByAction()} maskClosable={false} onCancel={this.clickCancelButton} title={<span>{this.getTitleByAction()}</span>} width={this.getWidthByAction()} visible={this.state.visible}>
           {this.getContentByAction()}
         </Modal>
-        <Button onClick={this.clickAddEmployeeButton} type="primary">添加</Button>
         <Table
           onRowClick={self.handleRowClick}
           style={{ marginTop: '8px' }}
@@ -364,7 +260,7 @@ class EmployeeList extends Component {
         >
         </Table>
         <Pagination defaultCurrent={this.state.currentPage} 
-        onChange={this.onChangePage}
+        onChange={this.getEmployees}
         total={this.state.count} />
       </div>
     );

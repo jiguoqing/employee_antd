@@ -5,7 +5,7 @@ const Actions = {
   ADD: "ADD",            // 添加
   EDIT: "EDIT",          // 编辑
   DELETE: "DELETE",      // 删除
-  ASSESS: "ASSESS",      // 评估
+  ASSESS: "ASSESS",      // 考核
   isAdd(code) {
     return code == this.ADD;
   },

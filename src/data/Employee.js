@@ -60,6 +60,7 @@ export function countByCondition(formData, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
     url: "/oa/employee/countByCondition",
+    traditional: true,
     contentType: "application/json",
     method: "GET",
     data: formData,

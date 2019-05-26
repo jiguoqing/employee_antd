@@ -46,7 +46,7 @@ class EmployeeEditor extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const formData = this.props.form.getFieldsValue();
-    formData.departmentId = formData.departmentId? formData.departmentId.split(splitCode)[0]:null;
+    formData.departmentId = formData.departmentId? formData.departmentId.toString().split(splitCode)[0]:null;
     if (!this.validate(formData)) return;
     const onSubmit = this.props.onSubmit;
     if (onSubmit) {

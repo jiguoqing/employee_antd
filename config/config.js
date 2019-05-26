@@ -16,7 +16,7 @@ export default {
         path: '/employee/list',
         component: 'employee/List'
       },
-      { path: '/assess/list', component: 'Dashboard/Analysis' },
+      { path: '/assess/assesslist', component: 'assess/assesslist' },
       { path: '/project/list', component: 'Dashboard/Monitor' },
       { path: '/employee/list', component: 'employee/List' },
       { path: '/department/list', component: 'department/departmentList' }

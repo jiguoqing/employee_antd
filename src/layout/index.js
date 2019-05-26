@@ -23,7 +23,7 @@ export default class BasicLayout extends Component {
               key="daily"
               title={<span><Icon type="dashboard" /><span>日常管理</span></span>}
             >
-              <Menu.Item key="2"><Link to="/assess/list">员工考核</Link></Menu.Item>
+              <Menu.Item key="2"><Link to="/assess/assesslist">员工考核</Link></Menu.Item>
               <Menu.Item key="3"><Link to="/project/list">项目管理</Link></Menu.Item>
             </SubMenu>
             <SubMenu
