@@ -103,22 +103,20 @@ class AssessOne extends React.Component {
     });
   };
 
-  checkPrice = (rule, value, callback) => {
-    if (value.number > 0) {
-      callback();
-      return;
-    }
-    callback('Price must greater than zero!');
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
+    const employeeId = this.props.employee?this.props.employee.id:null;
     return (
       <Form layout="inline" onSubmit={this.handleSubmit} >
         <Form.Item>
           {getFieldDecorator('phase', {
             initialValue: 1
           })(<Input value={1} hidden />)}
+          
+          {getFieldDecorator('employeeId', {
+            initialValue: {employeeId}
+          })(<Input value={employeeId} hidden />)}
+          
         </Form.Item>
         <Form.Item label="工作能力">
           {getFieldDecorator('ability', {

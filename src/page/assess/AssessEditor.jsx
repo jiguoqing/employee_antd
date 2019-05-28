@@ -13,16 +13,17 @@ class Assess extends Component {
   }
 
   render() {
+    const employee = this.props.employee?this.props.employee:null;
     return (
       <div >
         <Tabs defaultActiveKey="1">
           <TabPane tab="阶段一" key="1">
-            <PhaseOne></PhaseOne>
+            <PhaseOne employee={employee}></PhaseOne>
           </TabPane>
           <TabPane tab="阶段二" key="2">
-            <PhaseTwo></PhaseTwo>
+            <PhaseTwo  employee={employee} ></PhaseTwo>
           </TabPane>
-          <TabPane tab="阶段三" key="3">
+          <TabPane  employee={employee} tab="阶段三" key="3">
             3
           </TabPane>
         </Tabs>

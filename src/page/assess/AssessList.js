@@ -164,7 +164,7 @@ class EmployeeList extends Component {
   getContentByAction = () => {
     switch (this.action) {
       case Actions.ASSESS:
-        return this.state.visible ? <AssessEditor data={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <AssessEditor employee={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
     }
   }
   //生命周期
