@@ -135,6 +135,9 @@ const Option = Select.Option;
           {getFieldDecorator("id", { initialValue: DataUtil.fill(data, "id") })(
             <Input type="hidden" />
           )}
+          {getFieldDecorator("assessPhase", { initialValue: data===undefined?"0":data.assessPhase })(
+            <Input type="hidden" />
+          )}
           <FormItem label="姓名：" {...formItemLayout}>
             {getFieldDecorator("name", { initialValue: DataUtil.fill(data, "name") })(
               <Input placeholder="请输入姓名" />

@@ -113,6 +113,9 @@ class AssessOne extends React.Component {
             initialValue: 1
           })(<Input value={1} hidden />)}
           
+          
+        </Form.Item>
+        <Form.Item>
           {getFieldDecorator('employeeId', {
             initialValue: {employeeId}
           })(<Input value={employeeId} hidden />)}
@@ -120,12 +123,12 @@ class AssessOne extends React.Component {
         </Form.Item>
         <Form.Item label="工作能力">
           {getFieldDecorator('ability', {
-            initialValue: { number: 3, percent: 30 }
+            initialValue: { score: 3, percent: 30 }
           })(<AssessInput />)}
         </Form.Item>
         <Form.Item label="业绩">
           {getFieldDecorator('performance', {
-            initialValue: { number: 2, percent: 30 }
+            initialValue: { score: 2, percent: 30 }
           })(<AssessInput />)}
         </Form.Item>
         <Form.Item>

@@ -81,17 +81,13 @@ export function countByCondition(formData, options) {
 export function findById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/findById",
-    method: "POST",
+    url: "/oa/employee/findById",
+    method: "GET",
     data: {
       id: id
     },
     success: function (resp) {
-      if (ResponseHelper.isSuccess(resp)) {           // 成功
         options.success(resp);
-      } else {
-        options.error(resp);           // 失败
-      }
     },
     error: options.error,
     complete: options.complete

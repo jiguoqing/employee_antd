@@ -119,10 +119,22 @@ class EmployeeList extends Component {
     this.action = action;
   }
 
-  handleRowClick = (data, index, evt) => {
 
-    this.setState({
-      employee: data
+  handleRowClick = (data, index, evt) => {
+    const self = this;
+    EmployeeService.findById(data.id, {
+    
+      success: function (resp) {
+        self.setState({
+          employee: resp
+        });
+      },
+      error: function () {
+        message.error("获取员工信息失败！");
+      },
+      complete: function () {
+
+      }
     });
   }
 
