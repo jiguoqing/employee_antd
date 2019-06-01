@@ -72,13 +72,14 @@ class DepartmentList extends Component {
     StringUtil.trimObject(formData);    // 去除所有空格
 
     DepartmentService.save(formData, {
-      success() {
+      success(resp) {
         message.success("保存成功");
+        
         self.hideModal();
         self.getDepartments(self.state.currentPage);
       },
-      error() {
-        message.error("保存失败");
+      error(resp) {
+        message.error(resp.responseText);
       },
       complete() {
       }
