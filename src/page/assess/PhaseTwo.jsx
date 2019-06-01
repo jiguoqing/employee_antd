@@ -1,6 +1,6 @@
-import { Form, Input, Select, Button, InputNumber } from 'antd';
+import { Form, Input, message, Button, InputNumber } from 'antd';
 
-const { Option } = Select;
+import * as  AssessService from '../../services/AssessService';
 
 class AssessInput extends React.Component {
   static getDerivedStateFromProps(nextProps) {
@@ -18,20 +18,20 @@ class AssessInput extends React.Component {
 
     const value = props.value || {};
     this.state = {
-      number: value.number || 0,
+      score: value.number || 0,
       percent: value.percent,
     };
   }
 
   handleNumberChange = e => {
-    const number = parseInt(e.target.value || 0, 10);
-    if (Number.isNaN(number)) {
+    const score = parseInt(e.target.value || 0, 10);
+    if (Number.isNaN(score)) {
       return;
     }
     if (!('value' in this.props)) {
-      this.setState({ number });
+      this.setState({ score });
     }
-    this.triggerChange({ number });
+    this.triggerChange({ score });
   };
 
   handleInputNumberChange = percent => {
@@ -57,7 +57,7 @@ class AssessInput extends React.Component {
         <Input
           type="text"
           size={size}
-          value={state.number}
+          value={state.score}
           onChange={this.handleNumberChange}
           style={{ width: '45%', marginRight: '3%' }}
         />
@@ -75,38 +75,70 @@ class AssessInput extends React.Component {
   }
 }
 
-class AssessOne extends React.Component {
+class AssessTwo extends React.Component {
   handleSubmit = e => {
+    const self = this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
+
+      AssessService.save(values, {
+
+        success: function (resp) {
+          self.setState({
+            loading: false,
+            employees: resp
+          });
+          message.success("提交考核成功！");
+          self.props.hideModal();
+        },
+        error: function () {
+          message.error("提交考核失败！");
+        },
+        complete: function () {
+
+        }
+      })
     });
   };
 
   render() {
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 17 }
+    };
     const { getFieldDecorator } = this.props.form;
+    const employeeId = this.props.employee?this.props.employee.id:null;
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit}>
-        <Form.Item label="工作态度2">
-          {getFieldDecorator('attitude2', {
-            initialValue: { number: 2, percent: 40 }
-          })(<AssessInput />)}
-        </Form.Item>
-        <Form.Item label="工作能力2">
-          {getFieldDecorator('ability2', {
-            initialValue: { number: 3, percent: 30 }
-          })(<AssessInput />)}
-        </Form.Item>
-        <Form.Item label="业绩2">
-          {getFieldDecorator('performance2', {
-            initialValue: { number: 2, percent: 30 }
-          })(<AssessInput />)}
+      <Form layout="inline" onSubmit={this.handleSubmit} >
+        <Form.Item>
+          {getFieldDecorator('phase', {
+            initialValue: 2
+          })(<Input value={2} hidden />)}
+          
+          
         </Form.Item>
         <Form.Item>
+          {getFieldDecorator('employeeId', {
+            initialValue: {employeeId}
+          })(<Input value={employeeId} hidden />)}
+          
+        </Form.Item>
+        <Form.Item label="工作能力" {...formItemLayout}>
+          {getFieldDecorator('ability', {
+            initialValue: {  score: null,percent: 30 }
+          })(<AssessInput />)}
+        </Form.Item>
+        <Form.Item label="业绩" {...formItemLayout}>
+          {getFieldDecorator('performance', {
+            initialValue: { score: null,percent: 30 }
+          })(<AssessInput />)}
+        </Form.Item>
+        <Form.Item style={{ marginTop: 40, textAlign: "right" }} wrapperCol={{ span: 6, offset: 17 }}> 
           <Button type="primary" htmlType="submit">
-            Submit
+            提交
           </Button>
         </Form.Item>
       </Form>
@@ -114,6 +146,6 @@ class AssessOne extends React.Component {
   }
 }
 
-const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessOne);
+const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessTwo);
 
 export default PhaseOne;

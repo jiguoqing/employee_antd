@@ -75,7 +75,7 @@ class AssessInput extends React.Component {
   }
 }
 
-class AssessOne extends React.Component {
+class AssessThree extends React.Component {
   handleSubmit = e => {
     const self = this;
     e.preventDefault();
@@ -109,15 +109,14 @@ class AssessOne extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 17 }
     };
-    const hideModal =this.props.hideModal
     const { getFieldDecorator } = this.props.form;
     const employeeId = this.props.employee?this.props.employee.id:null;
     return (
       <Form layout="inline" onSubmit={this.handleSubmit} >
         <Form.Item>
           {getFieldDecorator('phase', {
-            initialValue: 1
-          })(<Input value={1} hidden />)}
+            initialValue: 3
+          })(<Input value={3} hidden />)}
           
           
         </Form.Item>
@@ -134,7 +133,7 @@ class AssessOne extends React.Component {
         </Form.Item>
         <Form.Item label="业绩" {...formItemLayout}>
           {getFieldDecorator('performance', {
-            initialValue: { score: null, percent: 30 }
+            initialValue: { score:null, percent: 30 }
           })(<AssessInput />)}
         </Form.Item>
         <Form.Item style={{ marginTop: 40, textAlign: "right" }} wrapperCol={{ span: 6, offset: 17 }}> 
@@ -147,6 +146,6 @@ class AssessOne extends React.Component {
   }
 }
 
-const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessOne);
+const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessThree);
 
 export default PhaseOne;
