@@ -1,5 +1,7 @@
 import * as Assess from '../data/Assess';
 import * as CollectionUtil from '../utils/CollectionUtil';
+import * as StringUtil from '../utils/StringUtil';
+
 
 
 /**
@@ -13,4 +15,16 @@ export function save(assess, options) {
     return;
   }
   return Assess.save(assess, options);
+}
+
+
+
+export function findByEmployeeIdAndPhase(employeeId,phase, options) {
+  if (StringUtil.isBlank(phase)) {
+    return;
+  }
+  if (null === employeeId) {
+    return;
+  }
+  return Assess.findByEmployeeIdAndPhase(employeeId,phase, options);
 }

@@ -23,3 +23,21 @@ export function save(assess, options) {
     complete: options.complete
   });
 }
+
+export function findByEmployeeIdAndPhase(employeeId,phase,options) {
+  options = OptionsHelper.generate(options);
+  return $.ajax({
+    url: "/oa/assess/findByEmployeeIdAndPhase",
+    method: "GET",
+    data:{
+      employeeId:employeeId,
+      phase:phase
+    },
+    success: function (resp) {
+      options.success(resp);
+    },
+    error: options.error,
+    complete: options.complete
+  });
+}
+

@@ -6,6 +6,7 @@ const Actions = {
   EDIT: "EDIT",          // 编辑
   DELETE: "DELETE",      // 删除
   ASSESS: "ASSESS",      // 考核
+  ASSESSDETAIL:"ASSESSDETAIL",// 考核详情
   isAdd(code) {
     return code == this.ADD;
   },
@@ -17,6 +18,9 @@ const Actions = {
   },
   isAssess(code) {
     return code == this.ASSESS;
+  },
+  isAssessDetail(code) {
+    return code == this.ASSESSDETAIL;
   },
 };
 

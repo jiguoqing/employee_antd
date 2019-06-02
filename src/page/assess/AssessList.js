@@ -6,8 +6,8 @@ import * as  DepartmentService from '../../services/DepartmentService';
 import * as DateUtil from '../../utils/DateUtil';
 import * as StringUtil from '../../utils/StringUtil';
 import Actions from '../actions/Actions'
-// import EmployeeEditor from './EmployeeEditor';
 import AssessEditor from './AssessEditor';
+import AssessDetail from './AssessDetail';
 
 class EmployeeList extends Component {
   constructor(props) {
@@ -91,6 +91,13 @@ class EmployeeList extends Component {
     this.setAction(Actions.ASSESS);
     this.showModal();
   }
+
+  handleDetail = () => {
+    this.setAction(Actions.ASSESSDETAIL);
+    this.showModal();
+  }
+
+  
   clickCancelButton = () => {
     this.hideModal();
   };
@@ -130,6 +137,9 @@ class EmployeeList extends Component {
     switch (this.action) {
       case Actions.ASSESS:
         return 800;
+        case Actions.ASSESSDETAIL:
+          return 800;
+        
     }
   }
   /**
@@ -138,9 +148,13 @@ class EmployeeList extends Component {
    */
   getFooterByAction = () => {
     switch (this.action) {
-     case Actions.ASSESS:
-        this.action = Actions.ASSESS;
-        return false;
+      case Actions.ASSESS:
+         this.action = Actions.ASSESS;
+         return false;
+         case Actions.ASSESSDETAIL:
+            this.action = Actions.ASSESSDETAIL;
+            return false;
+
     }
   }
 
@@ -153,6 +167,9 @@ class EmployeeList extends Component {
     switch (this.action) {
       case Actions.ASSESS:
         return "考核员工";
+        case Actions.ASSESSDETAIL:
+          return "考核详情";
+
     }
   }
 
@@ -166,6 +183,9 @@ class EmployeeList extends Component {
       case Actions.ASSESS:
         return this.state.visible ? <AssessEditor hideModal = {this.hideModal} 
         getEmployees={this.getEmployees} employee={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
+        case Actions.ASSESSDETAIL:
+          return this.state.visible ? <AssessDetail 
+           employee={this.state.employee} onCancel={this.clickCancelButton} /> : null;
     }
   }
   //生命周期
@@ -240,7 +260,8 @@ class EmployeeList extends Component {
         width: '140px',
         render(value, data) {
           return <span>
-            <Button type="primary" size="small" onClick={self.clickAssessEmployeeButton}>考核</Button>
+            <Button type="primary" size="small" onClick={self.clickAssessEmployeeButton}>考核</Button>&nbsp;&nbsp;
+            <Button type="primary" size="small" onClick={self.handleDetail}>查看</Button>
           </span>;
         }
       }

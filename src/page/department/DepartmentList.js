@@ -232,7 +232,7 @@ class DepartmentList extends Component {
           dataSource={this.state.departments}
           columns={columns}
           expandedRowRender={record => <div>
-            <p style={{ margin: 0 }}> 【备注】  {record.description}</p>
+            <p style={{ margin: 0 }}> 【描述】  {record.description}</p>
           </div>}
         >
         </Table>
