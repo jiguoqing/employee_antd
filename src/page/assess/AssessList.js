@@ -21,7 +21,8 @@ class AssessList extends Component {
       currentPage: 1,
       pageSize: 10,
       departments:[],
-      count:0
+      count:0,
+      formData:{}
     };
   }
 
@@ -86,7 +87,7 @@ class AssessList extends Component {
     }
     const self = this;
 
-    const formData = {};
+    const formData = this.state.formData;
 
     formData.statuses= "TRIAL";
     formData.currentPage=currentPage;
