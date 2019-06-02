@@ -55,6 +55,7 @@ class AssessList extends Component {
     if(formData.departmentId!==undefined && formData.departmentId!==null){
       formData.departmentId=formData.departmentId.split(splitCode)[0];
     }
+    
     this.setState({
       loading: true,	  
       formData: formData,
@@ -87,7 +88,7 @@ class AssessList extends Component {
 
     const formData = {};
 
-    formData.statuses= "INTER,TRIAL";
+    formData.statuses= "TRIAL";
     formData.currentPage=currentPage;
     EmployeeService.findByCondition( formData, {
 
@@ -108,7 +109,7 @@ class AssessList extends Component {
   }
 
   countByCondition=(formData)=>{
-    formData.statuses= "INTER,TRIAL";
+    formData.statuses= "TRIAL";
     EmployeeService.countByCondition( formData, {
 
       success: function (resp) {
@@ -219,7 +220,7 @@ class AssessList extends Component {
     switch (this.action) {
       case Actions.ASSESS:
         return this.state.visible ? <AssessEditor hideModal = {this.hideModal} 
-        getEmployees={this.getEmployees} employee={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
+        getEmployees={this.getEmployees} employee={this.state.employee}  onCancel={this.clickCancelButton} /> : null;
         case Actions.ASSESSDETAIL:
           return this.state.visible ? <AssessDetail 
            employee={this.state.employee} onCancel={this.clickCancelButton} /> : null;
