@@ -340,20 +340,9 @@ class AssessList extends Component {
 					  </Col>	
 					<Col span={3} >
 						<FormItem {...formItemLayout}>
-            {getFieldDecorator("status",)(
-              <Select placeholder="请选择状态" width='14'>
-                <Option value="INTER">实习生</Option>
-                <Option value="TRIAL">试用期</Option>
-                <Option value="ON_DUTY">在职</Option>
-                <Option value="LEAVE">离职</Option>
-              </Select>
-            )}
-						</FormItem>
-					  </Col>	
-					<Col span={3} >
-						<FormItem {...formItemLayout}>
             {getFieldDecorator("phase",)(
               <Select placeholder="请选择阶段" width='14'>
+                <Option value="0">未考核</Option>
                 <Option value="1">阶段一</Option>
                 <Option value="2">阶段二</Option>
                 <Option value="3">阶段三</Option>

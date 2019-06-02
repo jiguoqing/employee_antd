@@ -166,7 +166,6 @@ const Option = Select.Option;
           <FormItem label="状态" {...formItemLayout}>
             {getFieldDecorator("status", { initialValue: DataUtil.fill(data, "status") })(
               <Select placeholder="请输入状态">
-                <Option value="INTER">实习生</Option>
                 <Option value="TRIAL">试用期</Option>
                 <Option value="ON_DUTY">在职</Option>
                 <Option value="LEAVE">离职</Option>

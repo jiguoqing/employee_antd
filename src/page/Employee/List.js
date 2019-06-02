@@ -356,6 +356,11 @@ class EmployeeList extends Component {
         }
       },
       {
+        title: '状态',
+        dataIndex: 'status',
+        key: 'status'
+      },
+      {
         title: '办公地',
         dataIndex: 'location',
         key: 'location',
@@ -415,7 +420,6 @@ class EmployeeList extends Component {
 						<FormItem {...formItemLayout}>
             {getFieldDecorator("status",)(
               <Select placeholder="请选择状态" width='14'>
-                <Option value="INTER">实习生</Option>
                 <Option value="TRIAL">试用期</Option>
                 <Option value="ON_DUTY">在职</Option>
                 <Option value="LEAVE">离职</Option>
