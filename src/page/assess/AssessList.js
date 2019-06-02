@@ -1,5 +1,7 @@
-import { Table,Pagination, message, Button, Modal, Alert } from 'antd';
+import { Table,Pagination, message, Button, Modal, Row ,Col ,Form ,Input ,Select } from 'antd';
 import React, { Component } from 'react';
+const FormItem = Form.Item;
+const Option = Select.Option;
 import * as  EmployeeService from '../../services/EmployeeService.js';
 import * as  DepartmentService from '../../services/DepartmentService';
 
@@ -8,8 +10,9 @@ import * as StringUtil from '../../utils/StringUtil';
 import Actions from '../actions/Actions'
 import AssessEditor from './AssessEditor';
 import AssessDetail from './AssessDetail';
+const splitCode = "##_";
 
-class EmployeeList extends Component {
+class AssessList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +40,41 @@ class EmployeeList extends Component {
 
       }
   })
+  }
+
+  handleReset = (e) => {
+    e.preventDefault();
+    this.props.form.resetFields();
+  }
+  handleQuerySubmit=(e)=> {
+    e.preventDefault();
+    const self = this;	
+    const formData = this.props.form.getFieldsValue();
+    StringUtil.trimObject(formData);
+    formData.currentPage=1;
+    if(formData.departmentId!==undefined && formData.departmentId!==null){
+      formData.departmentId=formData.departmentId.split(splitCode)[0];
+    }
+    this.setState({
+      loading: true,	  
+      formData: formData,
+    });
+    EmployeeService.findByCondition( formData, {
+
+      success: function (resp) {
+        self.setState({
+          loading: false,
+          employees: resp
+        });
+      },
+      error: function () {
+        message.error("加载员工列表失败！");
+      },
+      complete: function () {
+
+      }
+    });
+    this.countByCondition(formData);
   }
   getEmployees = (page) => {
     var currentPage = null;
@@ -69,8 +107,7 @@ class EmployeeList extends Component {
 
   }
 
-  countByCondition=()=>{
-    const formData = {};
+  countByCondition=(formData)=>{
     formData.statuses= "INTER,TRIAL";
     EmployeeService.countByCondition( formData, {
 
@@ -191,13 +228,19 @@ class EmployeeList extends Component {
   //生命周期
   componentDidMount() {
 
+    const formData = {};
     this.getEmployees(this.state.currentPage);
-    this.countByCondition();
+    this.countByCondition(formData);
     this.getDepartments();
   }
 
   render() {
     self = this;
+    const formItemLayout = {
+    labelCol: {span: 0},
+    wrapperCol: {span: 22}
+  };
+  const {getFieldDecorator, getFieldValue} = this.props.form;
     const columns = [
       {
         title: '姓名',
@@ -271,6 +314,80 @@ class EmployeeList extends Component {
         <Modal footer={this.getFooterByAction()} maskClosable={false} onCancel={this.clickCancelButton} title={<span>{this.getTitleByAction()}</span>} width={this.getWidthByAction()} visible={this.state.visible}>
           {this.getContentByAction()}
         </Modal>
+        <Form onSubmit={this.handleQuerySubmit} >	 
+        <div className="query-form">
+			  <Row type="flex">  
+					<Col span={3}  >
+						<FormItem {...formItemLayout}>
+						  {getFieldDecorator("name")(
+							<Input placeholder="请输入姓名"/>
+						  )}
+						</FormItem>
+					  </Col>	
+					<Col span={3} >
+						<FormItem {...formItemLayout}>
+						  {getFieldDecorator("englishName")(
+							<Input placeholder="请输入英文名"/>
+						  )}
+						</FormItem>
+					  </Col>	
+					<Col span={3} >
+						<FormItem {...formItemLayout}>
+						  {getFieldDecorator("code")(
+							<Input placeholder="请输入员工号"/>
+						  )}
+						</FormItem>
+					  </Col>	
+					<Col span={3} >
+						<FormItem {...formItemLayout}>
+            {getFieldDecorator("status",)(
+              <Select placeholder="请选择状态" width='14'>
+                <Option value="INTER">实习生</Option>
+                <Option value="TRIAL">试用期</Option>
+                <Option value="ON_DUTY">在职</Option>
+                <Option value="LEAVE">离职</Option>
+              </Select>
+            )}
+						</FormItem>
+					  </Col>	
+					<Col span={3} >
+						<FormItem {...formItemLayout}>
+            {getFieldDecorator("phase",)(
+              <Select placeholder="请选择阶段" width='14'>
+                <Option value="1">阶段一</Option>
+                <Option value="2">阶段二</Option>
+                <Option value="3">阶段三</Option>
+              </Select>
+            )}
+						</FormItem>
+					  </Col>	
+            <Col span={3} >
+						<FormItem {...formItemLayout}>
+            {getFieldDecorator("departmentId",)(
+
+              <Select showSearch 
+              placeholder="请选择部门"
+              >
+              {
+                this.state.departments.map((department, index) => {
+                  return <Option key={index.toString()} value={department.id+splitCode+department.name}>
+
+              {department.name}</Option>
+                })
+              }
+              </Select>
+              )}
+						</FormItem>
+					  </Col>	
+					  <Col span={4} style={{marginRight:16}} >
+						<FormItem >
+						  <Button size="default" htmlType="submit">查询</Button>&nbsp;&nbsp;
+						  <Button type="ghost" size="default" onClick={this.handleReset}>清空</Button>
+						</FormItem>
+					  </Col>
+                </Row>
+			</div>
+      </Form>
         <Table
           onRowClick={self.handleRowClick}
           style={{ marginTop: '8px' }}
@@ -293,4 +410,5 @@ class EmployeeList extends Component {
     );
   }
 }
-export default EmployeeList;
+AssessList = Form.create()(AssessList);
+export default AssessList;
