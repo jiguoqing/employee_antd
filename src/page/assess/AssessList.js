@@ -164,7 +164,8 @@ class EmployeeList extends Component {
   getContentByAction = () => {
     switch (this.action) {
       case Actions.ASSESS:
-        return this.state.visible ? <AssessEditor hideModal = {this.hideModal} employee={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
+        return this.state.visible ? <AssessEditor hideModal = {this.hideModal} 
+        getEmployees={this.getEmployees} employee={this.state.employee} onSubmit={this.handleAssessSubmit} onCancel={this.clickCancelButton} /> : null;
     }
   }
   //生命周期
@@ -213,6 +214,11 @@ class EmployeeList extends Component {
           }
           return DateUtil.formatDate(value);
         }
+      },
+      {
+        title: '考核阶段',
+        dataIndex: 'assessPhase',
+        key: 'assessPhase',
       },
       {
         title: '办公地',

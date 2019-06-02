@@ -57,6 +57,7 @@ class AssessInput extends React.Component {
         <Input
           type="text"
           size={size}
+          required={true}
           value={state.score}
           onChange={this.handleNumberChange}
           style={{ width: '45%', marginRight: '3%' }}
@@ -93,6 +94,7 @@ class AssessOne extends React.Component {
           });
           message.success("提交考核成功！");
           self.props.hideModal();
+          self.props.getEmployees();
         },
         error: function () {
           message.error("提交考核失败！");
