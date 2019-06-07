@@ -344,10 +344,29 @@ class AssessList extends Component {
 						<FormItem {...formItemLayout}>
             {getFieldDecorator("phase",)(
               <Select placeholder="请选择阶段" width='14'>
-                <Option value="0">未考核</Option>
-                <Option value="1">阶段一</Option>
-                <Option value="2">阶段二</Option>
-                <Option value="3">阶段三</Option>
+                <Option value="0">阶段一</Option>
+                <Option value="1">阶段二</Option>
+                <Option value="2">阶段三</Option>
+              </Select>
+            )}
+						</FormItem>
+					  </Col>	
+					<Col span={4} >
+						<FormItem {...formItemLayout}>
+            {getFieldDecorator("month",)(
+              <Select placeholder="请选择考核月份" width='14'>
+                <Option value="1">一月</Option>
+                <Option value="2">二月</Option>
+                <Option value="3">三月</Option>
+                <Option value="4">四月</Option>
+                <Option value="5">五月</Option>
+                <Option value="6">六月</Option>
+                <Option value="7">七月</Option>
+                <Option value="8">八月</Option>
+                <Option value="9">九月</Option>
+                <Option value="10">十月</Option>
+                <Option value="11">十一月</Option>
+                <Option value="12">十二月</Option>
               </Select>
             )}
 						</FormItem>

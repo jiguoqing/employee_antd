@@ -24,11 +24,12 @@ export default {
     ]
   }],
   proxy: {
-    '/oa': {
+    '/employee': {
       target: 'http://localhost:8080',
       changeOrigin: true,
     },
   },
   singular: true,
+  base: '/employee',
 };
 
