@@ -41,7 +41,7 @@ export function findAll(options) {
 export function findByName(name,options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/oa/department/findByName",
+    url: "/employee/department/findByName",
     method: "GET",
     data:{
       name:name
