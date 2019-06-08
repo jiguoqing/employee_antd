@@ -1,4 +1,4 @@
-import { Table,Pagination, message, Button, Modal, Row ,Col ,Form ,Input ,Select } from 'antd';
+import { Table,Pagination, message, Button, Modal, Row ,Col ,Form ,Input ,Select ,Icon} from 'antd';
 import React, { Component } from 'react';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -47,6 +47,26 @@ class AssessList extends Component {
     e.preventDefault();
     this.props.form.resetFields();
   }
+  onChangePhase=(phase)=>{
+
+    this.setState({
+      phase: phase
+    });
+  }
+  onChangeMonth=(month)=>{
+
+    this.setState({  
+      month: month,
+    });
+  }
+  handleExport = () => {
+    var phase = this.state.phase;
+    var month = this.state.month;
+
+    let url = "exportExcel?phase="+phase+"&month="+month;
+    window.open(url,"_blank").location;
+  }
+  
   handleQuerySubmit=(e)=> {
     e.preventDefault();
     const self = this;	
@@ -343,7 +363,8 @@ class AssessList extends Component {
 					<Col span={3} >
 						<FormItem {...formItemLayout}>
             {getFieldDecorator("phase",)(
-              <Select placeholder="请选择阶段" width='14'>
+              <Select placeholder="请选择阶段" width='14'
+              onChange={this.onChangePhase}>
                 <Option value="0">阶段一</Option>
                 <Option value="1">阶段二</Option>
                 <Option value="2">阶段三</Option>
@@ -354,7 +375,8 @@ class AssessList extends Component {
 					<Col span={4} >
 						<FormItem {...formItemLayout}>
             {getFieldDecorator("month",)(
-              <Select placeholder="请选择考核月份" width='14'>
+              <Select placeholder="请选择考核月份" width='14'
+              onChange={this.onChangeMonth}>
                 <Option value="1">一月</Option>
                 <Option value="2">二月</Option>
                 <Option value="3">三月</Option>
@@ -398,6 +420,7 @@ class AssessList extends Component {
                 </Row>
 			</div>
       </Form>
+						  <Button type="ghost" size="default" onClick={this.handleExport}>导出</Button>
         <Table
           onRowClick={self.handleRowClick}
           style={{ marginTop: '8px' }}
