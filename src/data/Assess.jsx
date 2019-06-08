@@ -12,7 +12,7 @@ import JSON from 'JSON';
 export function save(assess, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
-    url: "/employee/assess/save",
+    url: "/api/assess/save",
     contentType: "application/json",
     method: "POST",
     data: JSON.stringify(assess),
@@ -27,7 +27,7 @@ export function save(assess, options) {
 export function findByEmployeeIdAndPhase(employeeId,phase,options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/assess/findByEmployeeIdAndPhase",
+    url: "/api/assess/findByEmployeeIdAndPhase",
     method: "GET",
     data:{
       employeeId:employeeId,

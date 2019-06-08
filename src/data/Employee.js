@@ -12,7 +12,7 @@ import JSON from 'JSON';
 export function save(employee, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
-    url: "/employee/employee/save",
+    url: "/api/employee/save",
     contentType: "application/json",
     method: "POST",
     data: JSON.stringify(employee),
@@ -36,7 +36,7 @@ export function save(employee, options) {
 export function findByCondition(formData, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/employee/findByCondition",
+    url: "/api/employee/findByCondition",
     contentType: "application/json",
     method: "GET",
     data: formData,
@@ -59,7 +59,7 @@ export function findByCondition(formData, options) {
 export function countByCondition(formData, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/employee/countByCondition",
+    url: "/api/employee/countByCondition",
     traditional: true,
     contentType: "application/json",
     method: "GET",
@@ -81,7 +81,7 @@ export function countByCondition(formData, options) {
 export function findById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/employee/findById",
+    url: "/api/employee/findById",
     method: "GET",
     data: {
       id: id
@@ -103,7 +103,7 @@ export function findById(id, options) {
 export function deleteById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/employee/employee/deleteById",
+    url: "/api/employee/deleteById",
     method: "POST",
     data: {
       id: id

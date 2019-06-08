@@ -18,16 +18,15 @@ export default {
       },
       { path: '/assess/assesslist', component: 'assess/assesslist' },
       { path: '/project/list', component: 'Dashboard/Monitor' },
-      { path: '/employee/list', component: 'employee/List' },
       { path: '/department/list', component: 'department/departmentList' }
     
     ]
   }],
   proxy: {
-    '/employee': {
+    '/api': {
       target: 'http://localhost:8080',
       changeOrigin: true,
-      // pathRewrite: { '^/employee/': '' },  //因为我们项目的接口前面并没有employee所以直接去掉
+      // pathRewrite: { '^/api/': 'employee' },  //因为我们项目的接口前面并没有api所以直接去掉
     },
   },
   singular: true,
