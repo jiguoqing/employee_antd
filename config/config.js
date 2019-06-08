@@ -10,7 +10,7 @@ export default {
     routes: [
       {
         path: '/',
-        component: 'employee/List',
+        component: 'assess/assesslist',
       },
       {
         path: '/employee/list',
