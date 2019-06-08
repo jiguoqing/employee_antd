@@ -27,10 +27,10 @@ export default {
     '/employee': {
       target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: { '^/employee/': '' },  //因为我们项目的接口前面并没有employee所以直接去掉
+      // pathRewrite: { '^/employee/': '' },  //因为我们项目的接口前面并没有employee所以直接去掉
     },
   },
   singular: true,
-  base: '/employee',
+  // base: '/employee',
 };
 
