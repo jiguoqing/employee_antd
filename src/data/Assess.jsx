@@ -27,7 +27,7 @@ export function save(assess, options) {
 export function findByEmployeeIdAndPhase(employeeId,phase,options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/api/assess/findByEmployeeIdAndPhase",
+    url: "api/assess/findByEmployeeIdAndPhase",
     method: "GET",
     data:{
       employeeId:employeeId,

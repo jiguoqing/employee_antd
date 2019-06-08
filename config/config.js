@@ -30,6 +30,6 @@ export default {
     },
   },
   singular: true,
-  // base: '/employee',
+  base: '/oa',
 };
 
