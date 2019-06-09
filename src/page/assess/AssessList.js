@@ -275,16 +275,6 @@ class AssessList extends Component {
         key: 'englishName',
       },
       {
-        title: '性别',
-        dataIndex: 'gender',
-        key: 'gender',
-      },
-      {
-        title: '员工号',
-        dataIndex: 'code',
-        key: 'code',
-      },
-      {
         title: '职位',
         dataIndex: 'jobTitle',
         key: 'jobTitle',
@@ -300,10 +290,17 @@ class AssessList extends Component {
           return DateUtil.formatDate(value);
         }
       },
+  
       {
-        title: '考核阶段',
-        dataIndex: 'assessPhase',
-        key: 'assessPhase',
+        title: '计划考核时间',
+        dataIndex: 'onboardAt',
+        key: 'onboardAt',
+        render: (value,data) => {
+          if (StringUtil.isBlank(data.phaseOneAt)) {
+            return "--";
+          }
+          return DateUtil.formatDate(data.phaseOneAt) + "||" + DateUtil.formatDate(data.phaseTwoAt) +"||" + DateUtil.formatDate(data.phaseThreeAt) ;
+        }
       },
       {
         title: '办公地',
@@ -430,6 +427,10 @@ class AssessList extends Component {
           expandedRowRender={record => <div>
             <p style={{ margin: 0 }}> 【部门】  {record.department?record.department.name:"--"}</p>
             <p style={{ margin: 0 }}> 【手机】  {record.phone}</p>
+            <p style={{ margin: 0 }}> 【性别】  {record.gender}</p>
+            <p style={{ margin: 0 }}> 【员工号】  {record.code}</p>
+            <p style={{ margin: 0 }}> 【层级】  {record.level}</p>
+            <p style={{ margin: 0 }}> 【邮箱】  {record.email}</p>
             <p style={{ margin: 0 }}> 【邮箱】  {record.email}</p>
             <p style={{ margin: 0 }}> 【备注】  {record.description}</p>
           </div>
