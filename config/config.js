@@ -16,20 +16,32 @@ export default {
         path: '/employee/list',
         component: 'employee/List'
       },
+      {
+        path: '/oa/employee/list',
+        component: 'employee/List'
+      },
       { path: '/assess/assesslist', component: 'assess/assesslist' },
       { path: '/project/list', component: 'Dashboard/Monitor' },
       { path: '/department/list', component: 'department/departmentList' }
+      // { path: '/oa/assess/assesslist', component: 'assess/assesslist' },
+      // { path: '/oa/project/list', component: 'Dashboard/Monitor' },
+      // { path: '/oa/department/list', component: 'department/departmentList' }
     
     ]
   }],
   proxy: {
-    '/api': {
+    '/oa': {
       target: 'http://localhost:8080',
       changeOrigin: true,
-      // pathRewrite: { '^/api/': 'employee' },  //因为我们项目的接口前面并没有api所以直接去掉
+      pathRewrite: { '^/oa': '/' },  //因为我们项目的接口前面并没有api所以直接去掉
     },
   },
+  // history: 'hash',
   singular: true,
-  base: '/oa',
+  // exportStatic: true
+  // base: '/oa',
+//   devServer: {
+//   historyApiFallback: true
+// }
 };
 

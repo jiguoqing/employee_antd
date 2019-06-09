@@ -12,7 +12,7 @@ import JSON from 'JSON';
 export function save(department, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
-    url: "/api/department/save",
+    url: "/oa/department/save",
     contentType: "application/json",
     method: "POST",
     data: JSON.stringify(department),
@@ -29,7 +29,7 @@ export function save(department, options) {
 export function findAll(options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/api/department/findAll",
+    url: "/oa/department/findAll",
     method: "GET",
     success: function (resp) {
       options.success(resp);
@@ -41,7 +41,7 @@ export function findAll(options) {
 export function findByName(name,options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/api/department/findByName",
+    url: "/oa/department/findByName",
     method: "GET",
     data:{
       name:name
@@ -63,7 +63,7 @@ export function findByName(name,options) {
 export function deleteById(id, options) {
   options = OptionsHelper.generate(options);
   return $.ajax({
-    url: "/api/department/deleteById",
+    url: "/oa/department/deleteById",
     method: "POST",
     data: {
       id: id
