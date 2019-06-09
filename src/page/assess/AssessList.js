@@ -63,7 +63,7 @@ class AssessList extends Component {
     var phase = this.state.phase;
     var month = this.state.month;
 
-    let url = "exportExcel?phase="+phase+"&month="+month;
+    let url = "/oa/employee/assess/exportExcel?phase="+phase+"&month="+month;
     window.open(url,"_blank").location;
   }
   
