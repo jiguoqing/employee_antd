@@ -22,13 +22,18 @@ export default {
       },
       { path: '/assess/assesslist', component: 'assess/assesslist' },
       { path: '/project/list', component: 'Dashboard/Monitor' },
-      { path: '/department/list', component: 'department/departmentList' }
+      { path: '/department/list', component: 'department/departmentList' },
+      {
+        path: '/login',
+        component: 'login/Login'
+      },
       // { path: '/oa/assess/assesslist', component: 'assess/assesslist' },
       // { path: '/oa/project/list', component: 'Dashboard/Monitor' },
       // { path: '/oa/department/list', component: 'department/departmentList' }
     
     ]
-  }],
+  }
+],
   proxy: {
     '/oa': {
       target: 'http://localhost:8080',

@@ -8,7 +8,19 @@ const SubMenu = Menu.SubMenu;
 
 export default class BasicLayout extends Component {
   render() {
-    return (
+    return window.location.pathname.indexOf("login")===1?
+    (
+      <Layout  style={{minHeight: '100vh'}}  >
+        <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>石基信息</Header>
+        <Content style={{ margin: '24px 16px 0'  }}>
+          <div style={{ padding: 24, background: '#fff'}}>
+            {this.props.children}
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      </Layout>)
+    :
+     (
       <Layout>
         <Sider width={256} style={{ minHeight: '100vh' }}>
           <div style={{ height: '32px', background: 'rgba(255,255,255,.2)', margin: '16px' }} />
