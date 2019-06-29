@@ -12,9 +12,10 @@ import JSON from 'JSON';
 export function validate(user, options) {
   options = OptionsHelper.generate(options);
   $.ajax({
-    url: "/oa/user/validate?user="+user.name+"&password="+user.password,
+    url: "/oa/user/validate",
     contentType: "application/json",
-    method: "GET",
+    method: "POST",
+    data: JSON.stringify(user),
     success: function (resp) {
       options.success(resp);// 成功
       debugger;
