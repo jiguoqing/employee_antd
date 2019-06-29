@@ -34,7 +34,12 @@ export function findAll(options) {
     success: function (resp) {
       options.success(resp);
     },
-    error: options.error,
+    error: function (resp) {
+      if (!ResponseHelper.isAuthorized(resp)){
+        window.location.href = "/login";
+      }
+      options.error
+    },
     complete: options.complete
   });
 }

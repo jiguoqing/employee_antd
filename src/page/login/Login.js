@@ -2,6 +2,7 @@ import {Form ,Input,Button } from 'antd';
 import React, { Component } from 'react';
 import * as  UserService from '../../services/UserService';
 import * as StringUtil from '../../utils/StringUtil';
+import * as CookieUtil from '../../utils/CookieUtil';
 const FormItem = Form.Item;
 class Login extends Component {
   constructor(props) {
@@ -23,14 +24,18 @@ class Login extends Component {
     StringUtil.trimObject(formData);    // 去除所有空格
 
     UserService.validate(formData, {
-      success() {
-        message.success("登录成功");
+      success: function (resp) {
+        CookieUtil.setCookie("username",formData.name,7);
+        CookieUtil.setCookie("password",formData.password,7);
+        window.location.href = "/";
       },
-      error() {
+      error: function (resp) {
         message.error("登录失败");
       },
-      complete() {
+      complete: function () {
+        console.log("complete");
       }
+
     });
   }
 
