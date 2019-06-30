@@ -24,7 +24,6 @@ export function validate(user, options) {
         CookieUtil.clearCookie("password");
       }
       debugger;
-      console.log(resp);
     },
     error:function (resp) {
        options.error;
@@ -34,7 +33,6 @@ export function validate(user, options) {
     complete: function (resp) {
       options.complete;
       debugger;
-      console.log(resp);
    },
   });
 }
