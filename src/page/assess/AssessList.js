@@ -79,14 +79,15 @@ class AssessList extends Component {
     
     this.setState({
       loading: true,	  
-      formData: formData,
+      formData: formData
     });
     EmployeeService.findByCondition( formData, {
 
       success: function (resp) {
         self.setState({
           loading: false,
-          employees: resp
+          employees: resp,
+          currentPage:1
         });
       },
       error: function () {
@@ -116,7 +117,8 @@ class AssessList extends Component {
       success: function (resp) {
         self.setState({
           loading: false,
-          employees: resp
+          employees: resp,
+          currentPage:currentPage
         });
       },
       error: function () {
@@ -437,7 +439,7 @@ class AssessList extends Component {
           }
         >
         </Table>
-        <Pagination defaultCurrent={this.state.currentPage} 
+        <Pagination current={this.state.currentPage} 
         onChange={this.getEmployees}
         total={this.state.count} />
       </div>
