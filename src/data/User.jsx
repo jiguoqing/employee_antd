@@ -1,5 +1,6 @@
 import * as OptionsHelper from './helpers/OptionsHelper.js';
 import * as ResponseHelper from './helpers/ResponseHelper.js';
+import * as CookieUtil from '../utils/CookieUtil';
 import $ from 'jquery';
 import JSON from 'JSON';
 
@@ -18,6 +19,10 @@ export function validate(user, options) {
     data: JSON.stringify(user),
     success: function (resp) {
       options.success(resp);// 成功
+      if(resp==="false"){
+        CookieUtil.clearCookie("username");
+        CookieUtil.clearCookie("password");
+      }
       debugger;
       console.log(resp);
     },
@@ -26,7 +31,11 @@ export function validate(user, options) {
        debugger;
        console.log(resp);
     },
-    complete: options.complete
+    complete: function (resp) {
+      options.complete;
+      debugger;
+      console.log(resp);
+   },
   });
 }
 

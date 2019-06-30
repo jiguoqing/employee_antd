@@ -44,3 +44,8 @@ if(cval!=null){
   document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 }
 }
+
+//清除cookie
+export function clearCookie(name) {
+  setCookie(name, "", -1);
+}

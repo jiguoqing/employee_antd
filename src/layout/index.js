@@ -1,17 +1,29 @@
 import { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon ,Avatar,Button,Col} from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 import Link from 'umi/link';
+import * as CookieUtil from '../utils/CookieUtil';
 
 // 引入子菜单组件
 const SubMenu = Menu.SubMenu;
 
 export default class BasicLayout extends Component {
+  login=()=>{
+    window.location.href="/login";
+  }
+  logout=()=>{
+
+    CookieUtil.clearCookie("username");
+    CookieUtil.clearCookie("password");
+    window.location.href="/login";
+  }
   render() {
     return window.location.pathname.indexOf("login")===1?
     (
       <Layout  style={{minHeight: '100vh'}}  >
-        <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>石基信息</Header>
+        <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>
+          石基信息
+        </Header>
         <Content style={{ margin: '24px 16px 0'  }}>
           <div style={{ padding: 24, background: '#fff'}}>
             {this.props.children}
@@ -42,7 +54,17 @@ export default class BasicLayout extends Component {
           </Menu>
         </Sider>
         <Layout >
-          <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>石基信息</Header>
+          <Header style={{ background: '#fff', textAlign: 'center', padding: 0 }}>
+          
+          <Col span={4} offset ={8}>石基信息</Col>
+          <Col span={4} offset ={8}>
+          
+          <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+          <Button  onClick={this.login}>登录</Button>
+          <Button onClick={this.logout}>登出</Button>
+          </Col>
+          </Header>
+          
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               {this.props.children}

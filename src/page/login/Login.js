@@ -27,10 +27,13 @@ class Login extends Component {
       success: function (resp) {
         CookieUtil.setCookie("username",formData.name,7);
         CookieUtil.setCookie("password",formData.password,7);
-        window.location.href = "/";
+        window.location.reload;
       },
       error: function (resp) {
         message.error("登录失败");
+        
+        CookieUtil.clearCookie("username");
+        CookieUtil.clearCookie("password");
       },
       complete: function () {
         console.log("complete");
@@ -39,8 +42,33 @@ class Login extends Component {
     });
   }
 
+
   //生命周期
   componentDidMount() {
+    console.log("ddd");
+    let name= CookieUtil.getCookie("username");
+    let password= CookieUtil.getCookie("password");
+    if(StringUtil.isBlank(name)||(StringUtil.isBlank(password))){
+      return;
+    }
+    let formData={};
+    formData.name=name;
+    formData.password=password;
+    UserService.validate(formData, {
+      success: function (resp) {
+        if(resp){
+          window.location.href = "/assess/assesslist";
+        }
+      },
+      error: function (resp) {
+        CookieUtil.clearCookie("username");
+        CookieUtil.clearCookie("password");
+      },
+      complete: function () {
+        console.log("complete");
+      }
+
+    });
   }
 
   render() {
