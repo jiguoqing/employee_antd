@@ -58,10 +58,11 @@ export default class BasicLayout extends Component {
           
           <Col span={4} offset ={8}>石基信息</Col>
           <Col span={4} offset ={8}>
-          
-          <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
-          <Button  onClick={this.login}>登录</Button>
-          <Button onClick={this.logout}>登出</Button>
+        
+          <Avatar style={{ backgroundColor: '#2f19e0' }}>{CookieUtil.getCookie("username")}</Avatar>
+          {CookieUtil.getCookie("username")===""?
+          <Button  onClick={this.login}>登录</Button>:
+          <Button onClick={this.logout}>登出</Button>}
           </Col>
           </Header>
           

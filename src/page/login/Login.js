@@ -1,4 +1,4 @@
-import {Form ,Input,Button } from 'antd';
+import {Form ,Input,Button,Col ,Card} from 'antd';
 import React, { Component } from 'react';
 import * as  UserService from '../../services/UserService';
 import * as StringUtil from '../../utils/StringUtil';
@@ -58,6 +58,9 @@ class Login extends Component {
       success: function (resp) {
         if(resp){
           window.location.href = "/assess/assesslist";
+        } else {
+        CookieUtil.clearCookie("username");
+        CookieUtil.clearCookie("password");
         }
       },
       error: function (resp) {
@@ -82,6 +85,8 @@ class Login extends Component {
       };
       return (
         <div >
+            <Card>
+          <Col span={4} offset={8}>
           <Form onSubmit={this.handleSubmit}>
            
             <FormItem label="姓名：" {...formItemLayout}>
@@ -91,7 +96,7 @@ class Login extends Component {
             </FormItem>
             <FormItem label="密码：" {...formItemLayout}>
               {getFieldDecorator("password")(
-                <Input placeholder="请输入密码" />
+                <Input.Password placeholder="请输入密码" />
               )}
             </FormItem>
   
@@ -99,6 +104,8 @@ class Login extends Component {
               <Button type="primary" size="small" htmlType="submit">确定</Button>
             </FormItem>
           </Form>
+          </Col>
+            </Card>
       </div>
     );
   }
