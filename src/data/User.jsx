@@ -19,7 +19,7 @@ export function validate(user, options) {
     data: JSON.stringify(user),
     success: function (resp) {
       options.success(resp);// 成功
-      if(resp==="false"){
+      if(!resp){
         CookieUtil.clearCookie("username");
         CookieUtil.clearCookie("password");
       }

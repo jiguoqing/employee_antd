@@ -23,10 +23,10 @@ class Login extends Component {
 
     StringUtil.trimObject(formData);    // 去除所有空格
 
+    CookieUtil.setCookie("username",formData.name,7);
+    CookieUtil.setCookie("password",formData.password,7);
     UserService.validate(formData, {
       success: function (resp) {
-        CookieUtil.setCookie("username",formData.name,7);
-        CookieUtil.setCookie("password",formData.password,7);
         window.location.reload;
       },
       error: function (resp) {
