@@ -1,4 +1,4 @@
-import { Form, Input, message, Button, InputNumber,Card} from 'antd';
+import { Form, Input, message, Button, InputNumber,Card } from 'antd';
 
 import * as  AssessService from '../../services/AssessService';
 
@@ -76,7 +76,7 @@ class AssessInput extends React.Component {
   }
 }
 
-class AssessThree extends React.Component {
+class AssessTwo extends React.Component {
   handleSubmit = e => {
     const self = this;
     e.preventDefault();
@@ -108,8 +108,12 @@ class AssessThree extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 17 }
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 }
+    };
+    const formItemLayout1 = {
+      labelCol: { span: 14 },
+      wrapperCol: { span: 10 }
     };
     const { getFieldDecorator } = this.props.form;
     const employeeId = this.props.employee?this.props.employee.id:null;
@@ -117,8 +121,8 @@ class AssessThree extends React.Component {
       <Form layout="inline" onSubmit={this.handleSubmit} >
         <Form.Item>
           {getFieldDecorator('phase', {
-            initialValue: 3
-          })(<Input value={3} hidden />)}
+            initialValue: 2
+          })(<Input value={2} hidden />)}
           
           
         </Form.Item>
@@ -128,52 +132,87 @@ class AssessThree extends React.Component {
           })(<Input value={employeeId} hidden />)}
           
         </Form.Item>
-        
+
         <Card title="工作态度">
-          <Form.Item label="工作态度" {...formItemLayout}>
+          <Form.Item label="工作态度(报告)" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 5 }
+              initialValue: { percent: 2.5,score: null }
             })(<AssessInput />)}
           </Form.Item>
+          <Form.Item label="工作态度(Leader考评)" {...formItemLayout}>
+            {getFieldDecorator('ability', {
+              initialValue: { percent: 2.5,score: null }
+            })(<AssessInput />)}
+        </Form.Item>
         </Card>
         <Card title="胜任能力 ">
-          <Form.Item label="学习能力" {...formItemLayout}>
+          <Form.Item label="学习能力(报告)" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 1 }
+              initialValue: { score: null, percent: 2 }
             })(<AssessInput />)}
           </Form.Item>
-          <Form.Item label="表达能力" {...formItemLayout}>
+          <Form.Item label="学习能力(Leader考评)" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 8 }
+              initialValue: { score: null, percent: 2 }
             })(<AssessInput />)}
           </Form.Item>
-          <Form.Item label="培训技能" {...formItemLayout}>
+          <Form.Item label="表达能力(报告)" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 8 }
+              initialValue: { score: null, percent: 2 }
             })(<AssessInput />)}
           </Form.Item>
-          <Form.Item label="处理问题能力" {...formItemLayout}>
+          <Form.Item label="表达能力(Leader考评)" {...formItemLayout}>
+            {getFieldDecorator('ability', {
+              initialValue: { score: null, percent: 2 }
+            })(<AssessInput />)}
+          </Form.Item>
+          <Form.Item label="沟通能力" {...formItemLayout}>
             {getFieldDecorator('ability', {
               initialValue: { score: null, percent: 3 }
             })(<AssessInput />)}
           </Form.Item>
-        </Card>
-        <Card title="专业技能-岗位相关产品知识">
-          <Form.Item label="用户操作培训" {...formItemLayout}>
+          <Form.Item label="培训技能" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 17.5 }
+              initialValue: { score: null, percent: 5 }
             })(<AssessInput />)}
           </Form.Item>
-          <Form.Item label="问题解决及讲解" {...formItemLayout}>
+          <Form.Item label="处理问题能力(报告)" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 17.5 }
+              initialValue: { score: null, percent: 2 }
+            })(<AssessInput />)}
+          </Form.Item>
+          <Form.Item label="处理问题能力(Leader考评)" {...formItemLayout}>
+            {getFieldDecorator('ability', {
+              initialValue: { score: null, percent: 2 }
+            })(<AssessInput />)}
+          </Form.Item>
+        </Card>
+        <Card title="专业技能-岗位相关产品知识">
+          <Form.Item label="EL岗位必修课程学习情况和练习正确率" {...formItemLayout1}>
+            {getFieldDecorator('ability', {
+              initialValue: { percent: 2,score: null }
+            })(<AssessInput />)}
+          </Form.Item>
+          <Form.Item label="Shadow过程中Leader对产品知识掌握情况的评估分数" {...formItemLayout1}>
+            {getFieldDecorator('ability', {
+              initialValue: { percent: 8,score: null }
+            })(<AssessInput />)}
+        </Form.Item>
+          <Form.Item label="Support Case工作量和质量" {...formItemLayout1}>
+            {getFieldDecorator('ability', {
+              initialValue: { percent: 5,score: null }
+            })(<AssessInput />)}
+        </Form.Item>
+          <Form.Item label="在EL平台参加岗位产品知识综合性考核" {...formItemLayout1}>
+            {getFieldDecorator('ability', {
+              initialValue: { percent: 20,score: null }
             })(<AssessInput />)}
         </Form.Item>
         </Card>
         <Card title="工作流程">
           <Form.Item label="项目流程" {...formItemLayout}>
             {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 10 }
+              initialValue: { percent: 10,score: null }
             })(<AssessInput />)}
           </Form.Item>
         </Card>
@@ -191,6 +230,7 @@ class AssessThree extends React.Component {
             })(<AssessInput />)}
           </Form.Item>
         </Card>
+
         <Form.Item style={{ marginTop: 40, textAlign: "right" }} wrapperCol={{ span: 6, offset: 17 }}> 
           <Button type="primary" htmlType="submit">
             提交
@@ -201,6 +241,6 @@ class AssessThree extends React.Component {
   }
 }
 
-const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessThree);
+const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessTwo);
 
 export default PhaseOne;

@@ -1,4 +1,4 @@
-import { Form, Input, message, Button, InputNumber,Card} from 'antd';
+import { Form, Input, message, Button, InputNumber,Col,Card } from 'antd';
 
 import * as  AssessService from '../../services/AssessService';
 
@@ -76,7 +76,7 @@ class AssessInput extends React.Component {
   }
 }
 
-class AssessThree extends React.Component {
+class AssessOne extends React.Component {
   handleSubmit = e => {
     const self = this;
     e.preventDefault();
@@ -108,86 +108,87 @@ class AssessThree extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 17 }
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 }
     };
+    const formItemLayout1 = {
+      labelCol: { span: 14 },
+      wrapperCol: { span: 10 }
+    };
+    const hideModal =this.props.hideModal
     const { getFieldDecorator } = this.props.form;
     const employeeId = this.props.employee?this.props.employee.id:null;
     return (
       <Form layout="inline" onSubmit={this.handleSubmit} >
         <Form.Item>
           {getFieldDecorator('phase', {
-            initialValue: 3
-          })(<Input value={3} hidden />)}
-          
-          
+            initialValue: 1
+          })(<Input value={1} hidden />)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('employeeId', {
             initialValue: {employeeId}
           })(<Input value={employeeId} hidden />)}
-          
         </Form.Item>
-        
-        <Card title="工作态度">
-          <Form.Item label="工作态度" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 5 }
+        <Card title="学习态度">
+          <Form.Item label="认真态度" {...formItemLayout}>
+            {getFieldDecorator('attitude', {
+              initialValue: { percent: 5,score: null }
             })(<AssessInput />)}
           </Form.Item>
         </Card>
         <Card title="胜任能力 ">
           <Form.Item label="学习能力" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 1 }
+            {getFieldDecorator('learnAbility', {
+              initialValue: { percent: 10,score: null }
             })(<AssessInput />)}
           </Form.Item>
           <Form.Item label="表达能力" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 8 }
-            })(<AssessInput />)}
-          </Form.Item>
-          <Form.Item label="培训技能" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 8 }
+            {getFieldDecorator('expressAbility', {
+              initialValue: { percent: 5,score: null }
             })(<AssessInput />)}
           </Form.Item>
           <Form.Item label="处理问题能力" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 3 }
+            {getFieldDecorator('ProblemSolve', {
+              initialValue: { percent: 5,score: null }
             })(<AssessInput />)}
           </Form.Item>
         </Card>
-        <Card title="专业技能-岗位相关产品知识">
-          <Form.Item label="用户操作培训" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 17.5 }
+        <Card title="专业技能">
+          <Form.Item label="行业知识" {...formItemLayout1}>
+            {getFieldDecorator('Industryknowledge', {
+              initialValue: { percent: 5,score: null }
             })(<AssessInput />)}
           </Form.Item>
-          <Form.Item label="问题解决及讲解" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 17.5 }
+        <Form.Item label="岗位相关产品知识(EL岗位必修课程学习情况)" {...formItemLayout1}>
+            {getFieldDecorator('LearningSituation', {
+              initialValue: { percent: 20,score: null }
+            })(<AssessInput />)}
+        </Form.Item>
+        <Form.Item label="岗位相关产品知识(EL岗位必修课程对应练习的完成情况和正确率)" {...formItemLayout1}>
+            {getFieldDecorator('CorrectRate', {
+              initialValue: { percent: 10,score: null }
             })(<AssessInput />)}
         </Form.Item>
         </Card>
         <Card title="工作流程">
-          <Form.Item label="项目流程" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 10 }
+          <Form.Item label="日常工作及项目流程" {...formItemLayout}>
+            {getFieldDecorator('DailyWorkAndProjectProcess', {
+              initialValue: { percent: 10,score: null }
             })(<AssessInput />)}
           </Form.Item>
         </Card>
         <Card title="团队管理评定">
           <Form.Item label="团队管理评定" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 20 }
+            {getFieldDecorator('TeamManagementAssessment', {
+              initialValue: { percent: 20,score: null }
             })(<AssessInput />)}
-          </Form.Item>
+        </Form.Item>
         </Card>
         <Card title="阶段总结">
           <Form.Item label="阶段总结" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 10 }
+            {getFieldDecorator('StageSummary', {
+              initialValue: { percent: 10,score: null }
             })(<AssessInput />)}
           </Form.Item>
         </Card>
@@ -201,6 +202,6 @@ class AssessThree extends React.Component {
   }
 }
 
-const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessThree);
+const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessOne);
 
 export default PhaseOne;

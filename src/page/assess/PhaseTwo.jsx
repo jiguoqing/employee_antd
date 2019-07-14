@@ -1,153 +1,215 @@
-import { Form, Input, message, Button, InputNumber } from 'antd';
-
+import { Table,Pagination, message, Button, Modal, Row ,Col ,Form ,Input ,Select ,Icon} from 'antd';
+import React, { Component } from 'react';
+const FormItem = Form.Item;
+const Option = Select.Option;
 import * as  AssessService from '../../services/AssessService';
+const splitCode = "##_";
 
-class AssessInput extends React.Component {
-  static getDerivedStateFromProps(nextProps) {
-    // Should be a controlled component.
-    if ('value' in nextProps) {
-      return {
-        ...(nextProps.value || {}),
-      };
-    }
-    return null;
-  }
-
+class PhoseTwo extends Component {
   constructor(props) {
     super(props);
-
-    const value = props.value || {};
     this.state = {
-      score: value.number || 0,
-      percent: value.percent,
+      visible: false,   // 对话框显示状态
+      employees: [],
+      currentPage: 1,
+      pageSize: 10,
+      departments:[],
+      count:0,
+      formData:{}
     };
   }
+  getAssessTwo=()=>{
+    const employee = this.props.employee;
+    AssessService.findByEmployeeIdAndPhase(employee.id,"2", {
 
-  handleNumberChange = e => {
-    const score = parseInt(e.target.value || 0, 10);
-    if (Number.isNaN(score)) {
-      return;
-    }
-    if (!('value' in this.props)) {
-      this.setState({ score });
-    }
-    this.triggerChange({ score });
-  };
+      success: function (resp) {
+        self.setState({
+          assessTwo: resp
+        });
+      },
+      error: function () {
+        message.error("获取考核信息失败！");
+      },
+      complete: function () {
 
-  handleInputNumberChange = percent => {
-    if (!('value' in this.props)) {
-      this.setState({ percent });
-    }
-    this.triggerChange({ percent });
-  };
-
-  triggerChange = changedValue => {
-    // Should provide an event to pass value to Form.
-    const onChange = this.props.onChange;
-    if (onChange) {
-      onChange(Object.assign({}, this.state, changedValue));
-    }
-  };
-
-  render() {
-    const { size } = this.props;
-    const state = this.state;
-    return (
-      <span>
-        <Input
-          type="text"
-          size={size}
-          required={true}
-          value={state.score}
-          onChange={this.handleNumberChange}
-          style={{ width: '45%', marginRight: '3%' }}
-        />
-        <InputNumber
-          min={0}
-          max={100}
-          defaultValue={state.percent}
-          formatter={value => `${value}%`}
-          parser={value => value.replace('%', '')}
-          style={{ width: '45%', marginRight: '3%' }}
-          onChange={this.handleInputNumberChange}
-        />
-      </span>
-    );
-  }
-}
-
-class AssessTwo extends React.Component {
-  handleSubmit = e => {
-    const self = this;
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
       }
+  })
+  }
 
-      AssessService.save(values, {
 
-        success: function (resp) {
-          self.setState({
-            loading: false,
-            employees: resp
-          });
-          message.success("提交考核成功！");
-          self.props.hideModal();
-          self.props.getEmployees();
-        },
-        error: function () {
-          message.error("提交考核失败！");
-        },
-        complete: function () {
-
-        }
-      })
-    });
-  };
+  //生命周期
+  componentDidMount() {
+    this.getAssessTwo();
+  }
 
   render() {
+    self = this;
     const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 17 }
-    };
-    const { getFieldDecorator } = this.props.form;
-    const employeeId = this.props.employee?this.props.employee.id:null;
+    labelCol: {span: 0},
+    wrapperCol: {span: 22}
+  };
+  const {getFieldDecorator, getFieldValue} = this.props.form;
+  const columns = [
+    {
+      title: '考核内容',
+      dataIndex: 'content',
+      render: (value, row, index) => {
+        const obj = {
+          children: value,
+          props: {},
+        };
+        if (index === 0) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 1) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 2) {
+          obj.props.rowSpan = 8;
+        }
+        
+        if (index ===3 ||index ===4 ||index === 5||index === 6 || index === 7|| index === 8|| index === 9) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 10) {
+          obj.props.rowSpan = 4;
+        }
+        if (index ===11 ||index ===12 ||index === 13) {
+          obj.props.rowSpan = 0;
+        }
+        return obj;
+      },
+    },
+    {
+      title: '评估要点',
+      dataIndex: 'point',
+      render: (value, row, index) => {
+        const obj = {
+          children: value,
+          props: {},
+        };
+        if (index === 0) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 1) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 2) {
+          obj.props.rowSpan = 2;
+        }
+        // These two are merged into above cell
+        if (index ===3 ||index ===4 ||index === 5||index === 6||index === 7) {
+          obj.props.rowSpan = 0;
+        }
+        return obj;
+      },
+    },
+    {
+      title: '评估标准',
+      dataIndex: 'standard',
+    },
+    {
+      title: '比例',
+      dataIndex: 'percent',
+    },
+    {
+      title: '评分',
+      dataIndex: 'score',
+    },
+    {
+      title: '点评',
+      dataIndex: 'description',
+    },
+    {
+      title: '分项统计',
+      dataIndex: 'partScore',
+      render: (value, row, index) => {
+        const obj = {
+          children: value,
+          props: {},
+        };
+        if (index === 0) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 1) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 2) {
+          obj.props.rowSpan = 2;
+        }
+        // These two are merged into above cell
+        if (index ===3 ||index ===4 ||index === 5||index === 6||index === 7) {
+          obj.props.rowSpan = 0;
+        }
+        return obj;
+      },
+    },
+  ];
+  const data = [
+    {
+      key: '1',
+      content: '工作态度',
+      point: '认真和积极的学习、工作态度',
+      standard: '按时按量保质的发送每日学习报告，Shadow Daily Report，Shadow Summary Report 和阶段性总结报告',
+      percent: 5,
+      score: 2,
+    },
+    {
+      key: '1',
+      content: '工作态度',
+      point: '认真和积极的学习、工作态度',
+      standard: 'Shadow过程中Leader对工作态度的评估分数',
+      percent: 5,
+      score: 3,
+    },
+    {
+      key: '2',
+      content: '胜任能力',
+      point: '学习能力',
+      standard:"",
+      percent: 3,
+      score: 3,
+    },
+    {
+      key: '3',
+      content: '胜任能力',
+      point: '表达能力',
+      standard:"",
+      percent: 3,
+      score: 4,
+    },
+    {
+      key: '4',
+      content: '胜任能力',
+      point: '处理问题能力',
+      standard:"",
+      percent: 6,
+      score: 5,
+    },
+    {
+      key: '5',
+      content: 'Jake White',
+      point: 18,
+      standard:"",
+      percent: 5,
+      score: 4,
+    },
+  ];  
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit} >
-        <Form.Item>
-          {getFieldDecorator('phase', {
-            initialValue: 2
-          })(<Input value={2} hidden />)}
-          
-          
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('employeeId', {
-            initialValue: {employeeId}
-          })(<Input value={employeeId} hidden />)}
-          
-        </Form.Item>
-        <Form.Item label="工作能力" {...formItemLayout}>
-          {getFieldDecorator('ability', {
-            initialValue: {  score: null,percent: 30 }
-          })(<AssessInput />)}
-        </Form.Item>
-        <Form.Item label="业绩" {...formItemLayout}>
-          {getFieldDecorator('performance', {
-            initialValue: { score: null,percent: 30 }
-          })(<AssessInput />)}
-        </Form.Item>
-        <Form.Item style={{ marginTop: 40, textAlign: "right" }} wrapperCol={{ span: 6, offset: 17 }}> 
-          <Button type="primary" htmlType="submit">
-            提交
-          </Button>
-        </Form.Item>
-      </Form>
+      <div >
+        <Table
+          onRowClick={self.handleRowClick}
+          style={{ marginTop: '8px' }}
+          pagination={false}
+          dataSource={data}
+          columns={columns}
+          bordered
+          size="middle"
+        >
+        </Table>
+      </div>
     );
   }
 }
-
-const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessTwo);
-
-export default PhaseOne;
+PhoseTwo = Form.create()(PhoseTwo);
+export default PhoseTwo;

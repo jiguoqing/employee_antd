@@ -197,7 +197,7 @@ class AssessList extends Component {
   getWidthByAction = () => {
     switch (this.action) {
       case Actions.ASSESS:
-        return 800;
+        return 1200;
         case Actions.ASSESSDETAIL:
           return 800;
         
