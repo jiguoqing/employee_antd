@@ -240,7 +240,6 @@ class PhoseTwo extends Component {
         if (index === 10) {
           obj.props.rowSpan = 4;
         }
-        // These two are merged into above cell
         if (index ===11 ||index ===12 ||index === 13) {
           obj.props.rowSpan = 0;
         }
@@ -326,7 +325,6 @@ class PhoseTwo extends Component {
         if (index === 10) {
           obj.props.rowSpan = 4;
         }
-        // These two are merged into above cell
         if (index ===11 ||index ===12 ||index === 13) {
           obj.props.rowSpan = 0;
         }
