@@ -1,5 +1,6 @@
 import { Table,Pagination, message, Button, Modal, Row ,Col ,Form ,Input ,Select ,Icon} from 'antd';
 import React, { Component } from 'react';
+import * as StringUtil from '../../utils/StringUtil';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import * as  AssessService from '../../services/AssessService';
@@ -31,13 +32,23 @@ class EditableCell extends React.Component {
 
   save = e => {
     const { record, handleSave } = this.props;
-    let score = this.input.state.value;
+    let value = StringUtil.trim(this.input.state.value);
+    let field =this.props.dataIndex;
+    if(StringUtil.isBlank(value)){
+      message.warning("空格内容不会被记录，请继续填写");
+      return;
+    }
+    if(field === "score"){
+      record.score=value;
+    }
+    if(field === "description"){
+      record.description=value;
+    }
     this.form.validateFields((error, values) => {
       if (error && error[e.currentTarget.id]) {
         return;
       }
       this.toggleEdit();
-      record.score=score;
       handleSave({ ...record, ...values });
     });
   };
@@ -165,6 +176,7 @@ class PhoseTwo extends Component {
     {
       title: '考核内容',
       dataIndex: 'content',
+      width:'100px',
       render: (value, row, index) => {
         const obj = {
           children: value,
@@ -195,6 +207,7 @@ class PhoseTwo extends Component {
     {
       title: '评估要点',
       dataIndex: 'point',
+      width:'120px',
       render: (value, row, index) => {
         const obj = {
           children: value,
@@ -237,16 +250,27 @@ class PhoseTwo extends Component {
     {
       title: '评估标准',
       dataIndex: 'standard',
+      width:'300px'
     },
     {
       title: '比例',
       dataIndex: 'percent',
+      width:'40px',
+      render: (value, row, index) => {
+        if(null!=value){
+          return value+"%";
+        }
+      }
     },
     {
       title: '评分',
       dataIndex: 'score',
+      width:'50px',
       editable: true,
       render: (value, row, index) => {
+        if(index===17){
+          return;
+        }
         if(value){
           return value;
         }else{
@@ -257,10 +281,19 @@ class PhoseTwo extends Component {
     {
       title: '点评',
       dataIndex: 'description',
+      editable: true,
+      render: (value, row, index) => {
+        if(value){
+          return value;
+        }else{
+          return "请输入点评";
+        }
+      }
     },
     {
       title: '分项统计',
       dataIndex: 'summaryScore',
+      width:'50px',
       render: (value, row, index) => {
         const obj = {
           children: value,
@@ -275,8 +308,26 @@ class PhoseTwo extends Component {
         if (index === 2) {
           obj.props.rowSpan = 2;
         }
+        if (index === 3) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 4) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 5) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 8) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 9) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 10) {
+          obj.props.rowSpan = 4;
+        }
         // These two are merged into above cell
-        if (index ===3 ||index ===4 ||index === 5||index === 6||index === 7) {
+        if (index ===11 ||index ===12 ||index === 13) {
           obj.props.rowSpan = 0;
         }
         return obj;
