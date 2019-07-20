@@ -235,7 +235,7 @@ class PhoseOne extends Component {
       width:'50px',
       editable: true,
       render: (value, row, index) => {
-        if(index===17){
+        if(index===10){
           return;
         }
         if(value){
@@ -266,38 +266,21 @@ class PhoseOne extends Component {
           children: value,
           props: {},
         };
-        if (index === 0) {
-          obj.props.rowSpan = 2;
-        }
         if (index === 1) {
+          obj.props.rowSpan =3;
+        }
+        if (index === 2 || index === 3) {
           obj.props.rowSpan = 0;
         }
-        if (index === 2) {
-          obj.props.rowSpan = 2;
-        }
-        if (index === 3) {
-          obj.props.rowSpan = 0;
-        }
+        
         if (index === 4) {
-          obj.props.rowSpan = 2;
+          obj.props.rowSpan =3;
         }
-        if (index === 5) {
-          obj.props.rowSpan = 0;
-        }
-        if (index === 8) {
-          obj.props.rowSpan = 2;
-        }
-        if (index === 9) {
-          obj.props.rowSpan = 0;
-        }
-        if (index === 10) {
-          obj.props.rowSpan = 4;
-        }
-        // These two are merged into above cell
-        if (index ===11 ||index ===12 ||index === 13) {
+        if (index === 5||index === 6) {
           obj.props.rowSpan = 0;
         }
         return obj;
+      
       },
     },
   ];
