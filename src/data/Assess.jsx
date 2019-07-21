@@ -23,6 +23,20 @@ export function save(assess, options) {
     complete: options.complete
   });
 }
+export function saveAssessPerson(assessPerson, options) {
+  options = OptionsHelper.generate(options);
+  $.ajax({
+    url: "/oa/assessperson/save",
+    contentType: "application/json",
+    method: "POST",
+    data: JSON.stringify(assessPerson),
+    success: function (resp) {
+      options.success(resp);// 成功
+    },
+    error: options.error,
+    complete: options.complete
+  });
+}
 
 export function findByEmployeeIdAndPhase(employeeId,phase,options) {
   options = OptionsHelper.generate(options);

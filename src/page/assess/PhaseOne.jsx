@@ -33,7 +33,7 @@ class EditableCell extends React.Component {
     let value = StringUtil.trim(this.input.state.value);
     let field =this.props.dataIndex;
     if(StringUtil.isBlank(value)){
-      message.warning("空格内容不会被记录，请继续填写");
+      message.warning("空内容不会被记录，请继续填写");
       return;
     }
     if(field === "score"){

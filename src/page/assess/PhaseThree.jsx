@@ -1,206 +1,327 @@
-import { Form, Input, message, Button, InputNumber,Card} from 'antd';
-
+import { Table, message ,Form ,Input } from 'antd';
+import React, { Component } from 'react';
+import * as StringUtil from '../../utils/StringUtil';
 import * as  AssessService from '../../services/AssessService';
 
-class AssessInput extends React.Component {
-  static getDerivedStateFromProps(nextProps) {
-    // Should be a controlled component.
-    if ('value' in nextProps) {
-      return {
-        ...(nextProps.value || {}),
-      };
-    }
-    return null;
-  }
+const EditableContext = React.createContext();
 
-  constructor(props) {
-    super(props);
+const EditableRow = ({ form, index, ...props }) => (
+  <EditableContext.Provider value={form}>
+    <tr {...props} />
+  </EditableContext.Provider>
+);
 
-    const value = props.value || {};
-    this.state = {
-      score: value.number || 0,
-      percent: value.percent,
-    };
-  }
+const EditableFormRow = Form.create()(EditableRow);
 
-  handleNumberChange = e => {
-    const score = parseInt(e.target.value || 0, 10);
-    if (Number.isNaN(score)) {
-      return;
-    }
-    if (!('value' in this.props)) {
-      this.setState({ score });
-    }
-    this.triggerChange({ score });
+class EditableCell extends React.Component {
+  state = {
+    editing: false,
   };
 
-  handleInputNumberChange = percent => {
-    if (!('value' in this.props)) {
-      this.setState({ percent });
-    }
-    this.triggerChange({ percent });
-  };
-
-  triggerChange = changedValue => {
-    // Should provide an event to pass value to Form.
-    const onChange = this.props.onChange;
-    if (onChange) {
-      onChange(Object.assign({}, this.state, changedValue));
-    }
-  };
-
-  render() {
-    const { size } = this.props;
-    const state = this.state;
-    return (
-      <span>
-      <InputNumber
-        min={0}
-        max={100}
-        defaultValue={state.percent}
-        formatter={value => `${value}%`}
-        parser={value => value.replace('%', '')}
-        style={{ width: '25%', marginRight: '3%' }}
-        onChange={this.handleInputNumberChange}
-      />
-        <Input
-          type="text"
-          size={size}
-          required={true}
-          value={state.score}
-          onChange={this.handleNumberChange}
-          style={{ width: '55%', marginRight: '3%' }}
-        />
-      </span>
-    );
-  }
-}
-
-class AssessThree extends React.Component {
-  handleSubmit = e => {
-    const self = this;
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
+  toggleEdit = () => {
+    const editing = !this.state.editing;
+    this.setState({ editing }, () => {
+      if (editing) {
+        this.input.focus();
       }
-
-      AssessService.save(values, {
-
-        success: function (resp) {
-          self.setState({
-            loading: false,
-            employees: resp
-          });
-          message.success("提交考核成功！");
-          self.props.hideModal();
-          self.props.getEmployees();
-        },
-        error: function () {
-          message.error("提交考核失败！");
-        },
-        complete: function () {
-
-        }
-      })
     });
   };
 
+  save = e => {
+    const { record, handleSave } = this.props;
+    let value = StringUtil.trim(this.input.state.value);
+    let field =this.props.dataIndex;
+    if(StringUtil.isBlank(value)){
+      message.warning("空内容不会被记录，请继续填写");
+      return;
+    }
+    if(field === "score"){
+      record.score=value;
+    }
+    if(field === "description"){
+      record.description=value;
+    }
+    this.form.validateFields((error, values) => {
+      if (error && error[e.currentTarget.id]) {
+        return;
+      }
+      this.toggleEdit();
+      handleSave({ ...record, ...values });
+    });
+  };
+
+  renderCell = form => {
+    this.form = form;
+    const { children, dataIndex, record, title } = this.props;
+    const { editing } = this.state;
+    return editing ? (
+      <Form.Item style={{ margin: 0 }}>
+        {form.getFieldDecorator(dataIndex, {
+          rules: [
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ],
+          initialValue: record[dataIndex],
+        })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
+      </Form.Item>
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{ paddingRight: 24 }}
+        onClick={this.toggleEdit}
+      >
+        {children}
+      </div>
+    );
+  };
+
   render() {
-    const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 17 }
-    };
-    const { getFieldDecorator } = this.props.form;
-    const employeeId = this.props.employee?this.props.employee.id:null;
+    const {
+      editable,
+      dataIndex,
+      title,
+      record,
+      index,
+      handleSave,
+      children,
+      ...restProps
+    } = this.props;
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit} >
-        <Form.Item>
-          {getFieldDecorator('phase', {
-            initialValue: 3
-          })(<Input value={3} hidden />)}
-          
-          
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('employeeId', {
-            initialValue: {employeeId}
-          })(<Input value={employeeId} hidden />)}
-          
-        </Form.Item>
-        
-        <Card title="工作态度">
-          <Form.Item label="工作态度" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 5 }
-            })(<AssessInput />)}
-          </Form.Item>
-        </Card>
-        <Card title="胜任能力 ">
-          <Form.Item label="学习能力" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 1 }
-            })(<AssessInput />)}
-          </Form.Item>
-          <Form.Item label="表达能力" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 8 }
-            })(<AssessInput />)}
-          </Form.Item>
-          <Form.Item label="培训技能" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 8 }
-            })(<AssessInput />)}
-          </Form.Item>
-          <Form.Item label="处理问题能力" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 3 }
-            })(<AssessInput />)}
-          </Form.Item>
-        </Card>
-        <Card title="专业技能-岗位相关产品知识">
-          <Form.Item label="用户操作培训" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 17.5 }
-            })(<AssessInput />)}
-          </Form.Item>
-          <Form.Item label="问题解决及讲解" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 17.5 }
-            })(<AssessInput />)}
-        </Form.Item>
-        </Card>
-        <Card title="工作流程">
-          <Form.Item label="项目流程" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 10 }
-            })(<AssessInput />)}
-          </Form.Item>
-        </Card>
-        <Card title="团队管理评定">
-          <Form.Item label="团队管理评定" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 20 }
-            })(<AssessInput />)}
-          </Form.Item>
-        </Card>
-        <Card title="阶段总结">
-          <Form.Item label="阶段总结" {...formItemLayout}>
-            {getFieldDecorator('ability', {
-              initialValue: { score: null, percent: 10 }
-            })(<AssessInput />)}
-          </Form.Item>
-        </Card>
-        <Form.Item style={{ marginTop: 40, textAlign: "right" }} wrapperCol={{ span: 6, offset: 17 }}> 
-          <Button type="primary" htmlType="submit">
-            提交
-          </Button>
-        </Form.Item>
-      </Form>
+      <td {...restProps}>
+        {editable ? (
+          <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
+        ) : (
+          children
+        )}
+      </td>
     );
   }
 }
 
-const PhaseOne = Form.create({ name: 'assess_phase_one' })(AssessThree);
+class PhoseThree extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,   // 对话框显示状态
+      employees: [],
+      currentPage: 1,
+      pageSize: 10,
+      departments:[],
+      count:0,
+      formData:{}
+    };
+  }
+  getAssessThree=()=>{
+    const employee = this.props.employee;
+    AssessService.findByEmployeeIdAndPhase(employee.id,"3", {
 
-export default PhaseOne;
+      success: function (resp) {
+        self.setState({
+          assessThree: resp
+        });
+      },
+      error: function () {
+        message.error("获取考核信息失败！");
+      },
+      complete: function () {
+
+      }
+  })
+  }
+
+  handleSave = row => {
+    const newData = [...this.state.assessThree];
+    const index = newData.findIndex(item => row.key === item.key);
+    const item = newData[index];
+    newData.splice(index, 1, {
+      ...item,
+      ...row,
+    });
+    this.setState({ dataSource: newData });
+
+    //save to database
+    AssessService.save(row, {
+
+      success: function (resp) {
+        message.success("提交考核成功");
+      },
+      error: function () {
+        message.error("提交考核失败");
+      },
+      complete: function () {
+
+      }
+  })
+    
+  };
+  //生命周期
+  componentDidMount() {
+    this.getAssessThree();
+  }
+
+  render() {
+    self = this;
+    const formItemLayout = {
+    labelCol: {span: 0},
+    wrapperCol: {span: 22}
+  };
+
+  const {getFieldDecorator, getFieldValue} = this.props.form;
+  const columns = [
+    {
+      title: '考核内容',
+      dataIndex: 'content',
+      width:'100px',
+      render: (value, row, index) => {
+        const obj = {
+          children: value,
+          props: {},
+        };
+        if (index === 1) {
+          obj.props.rowSpan = 4;
+        }
+        if (index === 2 || index ===3 ||index ===4 ) {
+          obj.props.rowSpan = 0;
+        }
+        
+        if (index === 5) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 6) {
+          obj.props.rowSpan = 0;
+        }
+        
+        return obj;
+      },
+    },
+    {
+      title: '评估要点',
+      dataIndex: 'point',
+      width:'120px',
+      render: (value, row, index) => {
+        const obj = {
+          children: value,
+          props: {},
+        };
+        if (index === 5) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 6) {
+          obj.props.rowSpan = 0;
+        }
+        return obj;
+      },
+    },
+    {
+      title: '评估标准',
+      dataIndex: 'standard',
+      width:'300px'
+    },
+    {
+      title: '比例',
+      dataIndex: 'percent',
+      width:'40px',
+      render: (value, row, index) => {
+        if(null!=value){
+          return value+"%";
+        }
+      }
+    },
+    {
+      title: '评分',
+      dataIndex: 'score',
+      width:'50px',
+      editable: true,
+      render: (value, row, index) => {
+        if(index===10){
+          return;
+        }
+        if(value){
+          return value;
+        }else{
+          return "--";
+        }
+      }
+    },
+    {
+      title: '点评',
+      dataIndex: 'description',
+      editable: true,
+      render: (value, row, index) => {
+        if(value){
+          return value;
+        }else{
+          return "请输入点评";
+        }
+      }
+    },
+    {
+      title: '分项统计',
+      dataIndex: 'summaryScore',
+      width:'50px',
+      render: (value, row, index) => {
+        const obj = {
+          children: value,
+          props: {},
+        };
+        if (index === 1) {
+          obj.props.rowSpan = 4;
+        }
+        if (index === 2 || index ===3 ||index ===4 ) {
+          obj.props.rowSpan = 0;
+        }
+        
+        if (index === 5) {
+          obj.props.rowSpan = 2;
+        }
+        if (index === 6) {
+          obj.props.rowSpan = 0;
+        }
+        
+        return obj;
+      },
+    },
+  ];
+  const components = {
+    body: {
+      row: EditableFormRow,
+      cell: EditableCell,
+    },
+  };
+  const columnnew = columns.map(col => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: record => ({
+        record,
+        editable: col.editable,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        handleSave: this.handleSave,
+      }),
+    };
+  });
+    return (
+      <div >
+        <Table
+          style={{ marginTop: '8px' }}
+          pagination={false}
+          components={components}
+          rowClassName={() => 'editable-row'}
+          
+          dataSource={this.state.assessThree}
+          columns={columnnew}
+          bordered
+          size="middle"
+        >
+        </Table>
+      </div>
+    );
+  }
+}
+PhoseThree = Form.create()(PhoseThree);
+export default PhoseThree;

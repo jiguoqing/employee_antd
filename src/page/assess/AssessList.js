@@ -225,9 +225,10 @@ class AssessList extends Component {
    * @returns {*}
    */
   getTitleByAction = () => {
+    const employee = this.state.employee;
     switch (this.action) {
       case Actions.ASSESS:
-        return "考核员工";
+        return "考核员工-" + employee.name + ":"+ employee.englishName;
         case Actions.ASSESSDETAIL:
           return "考核详情";
 
