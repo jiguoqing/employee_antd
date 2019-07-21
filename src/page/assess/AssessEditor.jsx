@@ -15,7 +15,9 @@ class Assess extends Component {
     super(props);
     this.state = {
       assessPersionVisible:false,
-      phase:"1"
+      phase:"1",
+      assessPerson: null
+
     };
   }
   updateAssessPerson=()=>{
@@ -30,12 +32,11 @@ class Assess extends Component {
   };
   hideModal = () => {
     this.setState({
-      assessPersionVisible: true,
+      assessPersionVisible: false,
     });
   };
 
   handleOk = e => {
-    console.log(e);
     const employee = this.props.employee
     let assessPerson = {};
     assessPerson.name=e.name;
@@ -47,7 +48,8 @@ class Assess extends Component {
           message.success("保存成功");
           
           self.hideModal();
-          //self.getDepartments(self.state.currentPage);
+          self.findAssessPerson();
+          
         },
         error(resp) {
           message.error("保存失败");
@@ -57,11 +59,52 @@ class Assess extends Component {
       });
     
   };
+  findAssessPerson=()=>{
+
+    const self = this;
+    const employee = this.props.employee;
+    
+    let assessPerson = {};
+    assessPerson.employeeId=employee.id;
+    assessPerson.phase=this.state.phase;
+
+    AssessService.findAssessPerson(assessPerson,{
+      success(resp) {
+        
+        self.setState({
+          assessPerson: resp
+        });
+      },
+      error(resp) {
+      },
+      complete() {
+      }
+    });
+  }
   onChangeTab=(key)=>{
     
-    this.setState({
-      phase: key,
+    
+    const self = this;
+    const employee = this.props.employee;
+    
+    let assessPerson = {};
+    assessPerson.employeeId=employee.id;
+    assessPerson.phase=key
+
+    AssessService.findAssessPerson(assessPerson,{
+      success(resp) {
+        
+        self.setState({
+          assessPerson: resp,
+          phase: key
+        });
+      },
+      error(resp) {
+      },
+      complete() {
+      }
     });
+    
   }
   handleCancel = e => {
     console.log(e);
@@ -69,6 +112,11 @@ class Assess extends Component {
       assessPersionVisible: false,
     });
   };
+    //生命周期
+    componentDidMount() {
+
+      this.findAssessPerson();
+    }
   render() {
     const gridStyle = {
     width: '20px',
@@ -83,6 +131,8 @@ class Assess extends Component {
     const location = employee!=null?employee.location:null;
     const hideModal =this.props.hideModal;
     const getEmployees =this.props.getEmployees;
+    
+    let assessPersonName = (null==this.state.assessPerson?"填写考核人":this.state.assessPerson.name);
     return (
       <div >
         <Modal
@@ -115,7 +165,7 @@ class Assess extends Component {
           办公室：{location}
 					</Col>	
           <Col span={4}  >
-          考核人： <Button onClick={this.updateAssessPerson}>填写考核人</Button> 
+          考核人： <Button onClick={this.updateAssessPerson}>{assessPersonName}</Button> 
 					</Col>
          
           </Row>

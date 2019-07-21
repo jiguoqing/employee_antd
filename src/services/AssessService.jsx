@@ -24,6 +24,13 @@ export function saveAssessPerson(assessPerson, options) {
   return Assess.saveAssessPerson(assessPerson, options);
 }
 
+export function findAssessPerson(assessPerson, options) {
+  if (CollectionUtil.isEmpty(assessPerson)) {
+    return;
+  }
+  return Assess.findAssessPerson(assessPerson, options);
+}
+
 
 
 export function findByEmployeeIdAndPhase(employeeId,phase, options) {
